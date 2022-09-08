@@ -1,0 +1,82 @@
+﻿
+@{
+    /**/
+
+    Layout = "~/Views/Layout/_MasterLayout.cshtml";
+    var MenuLinks = ClientApp.Web.MvcApplication.MenuLinks;
+}
+
+@section subheader
+{
+    @RenderSection("subheader", required: false)
+}
+@section menu
+{
+    <ul class="kt-menu__nav">
+        @foreach (var menu in MenuLinks)
+        {
+            var hasSubMenu = menu.SubMenus != null && menu.SubMenus.Count > 0;
+            var parentClass = hasSubMenu ? "kt-menu__item--submenu" : "";
+            var subMenus = menu.SubMenus.Select(sm => sm.Url).ToList();
+            var submenuToggleAttr = hasSubMenu ? "data-ktmenu-submenu-toggle=hover" : "";
+            var menuToggle = hasSubMenu ? "kt-menu__toggle" : "";
+            var hrefSubmenu = hasSubMenu ? "javascript:;" : "";
+            subMenus.Add(menu.Url);
+            
+            <li class="kt-menu__item @parentClass @BaseController.AddClass(new[] { "kt-menu__item--submenu kt-menu__item--active open kt-menu__item--open" }, subMenus) @menu.CssClass" aria-haspopup="true" @submenuToggleAttr>
+                <a href="@Url.Content(menu.Url) @hrefSubmenu" class="kt-menu__link @menuToggle">
+                    <span class="kt-menu__link-icon">
+                        @if (string.IsNullOrEmpty(menu.IconUrl))
+                        {<img class="site-menu-icon image-size margin-ar" src="~/Assets/images/Icons/settings(2).svg" />
+
+                        }
+                        else
+                        {
+                            <img class="site-menu-icon icon image-size margin-ar" src="@menu.IconUrl" />
+                        }
+                    </span>
+
+                    @*<i class="kt-menu__link-icon fa fa-home"></i>*@
+                    <span class="kt-menu__link-text kt-padding-r-10 kt-padding-l-10">@menu.Name.Current</span>
+                    @if (hasSubMenu)
+                    {
+                        <i class="kt-menu__ver-arrow fa fa-angle-right"></i>
+                    }
+                </a>
+                @if (hasSubMenu)
+                {
+                    <div class="kt-menu__submenu">
+                        <span class="kt-menu__arrow"></span>
+                        <ul class="kt-menu__subnav">
+                            <li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true">
+                                <span class="kt-menu__link">
+                                    <span class="kt-menu__link-text">@menu.Name.Current</span>
+                                </span>
+                            </li>
+                            @foreach (var submenu in menu.SubMenus)
+                            {
+                                <li class="kt-menu__item @BaseController.AddClass("kt-menu__item--active", submenu.Url) @submenu.CssClass">
+                                    <a class="kt-menu__link" href="@Url.Content(submenu.Url)">
+                                        <i class="kt-menu__link-bullet kt-menu__link-bullet--dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="kt-menu__link-text">@submenu.Name.Current</span>
+                                    </a>
+                                </li>
+
+                            }
+
+                        </ul>
+                    </div>
+                }
+            </li>
+        }
+    </ul>
+}
+<div class="kt-content  kt-grid__item kt-grid__item--fluid" id="kt_content">
+    <!-- begin:: body-->
+    @RenderBody()
+    <!-- end:: body-->
+</div>
+
+

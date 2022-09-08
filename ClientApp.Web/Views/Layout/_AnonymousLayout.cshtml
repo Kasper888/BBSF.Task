@@ -1,0 +1,179 @@
+﻿@using ClientDependency.Core.Mvc
+@{
+    var appName = "AppName";
+    var appVersionNumber = MvcApplication.AppVersionNumber;
+    var pageTitle = ViewBag.Title == null ? appName : $"{ViewBag.Title} | {appName}";
+    var langKey = System.Threading.Thread.CurrentThread.CurrentCulture.TwoLetterISOLanguageName.ToLower();
+    bool isLoadMaps = ViewBag.IsLoadMaps == null ? false : ViewBag.IsLoadMaps;
+    var bodyrtlStyle = langKey == "ar" ? "direction:rtl" : "";
+}
+<!DOCTYPE html>
+<html class="no-js css-menubar @langKey" lang="@langKey">
+<head>
+    <title>@pageTitle</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="author" content="@appName ®">
+    <meta name="description" content="@appName">
+    <link rel="apple-touch-icon" href="~/Assets/Bnsights/images/B.ico">
+    <link rel="shortcut icon" href="~/Assets/Bnsights/images/B.ico">
+    <!-- Begin : Base Styles -->
+    @if (ViewBag.IsArabic)
+    {
+        Html.RequiresCssBundle("AnonymousStylesRTL");
+    }
+    else
+    {
+        Html.RequiresCssBundle("AnonymousStyles");
+    }
+    <!-- END Base Styles -->
+    <!-- Begin : Bnsights Base Styles -->
+    @{Html.RequiresCssBundle("BnsightsStyles");}
+
+    @if (ViewBag.IsArabic)
+    {
+        Html.RequiresCssBundle("BnsightsStylesRTL");
+    }
+    <!-- END Bnsights Styles -->
+    <style>
+        /* The only rule that matters */
+        #video-background {
+            /*  making the video fullscreen  */
+            position: fixed;
+            right: 0;
+            bottom: -90px;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: 136%;
+            z-index: -100;
+        }
+    </style>
+    @Html.RenderCssHere()
+
+    <script src="~/Assets/vendors/general/jquery/dist/jquery.min.js"></script>
+</head>
+<body class="kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--fixed kt-subheader--enabled kt-subheader--solid kt-aside--enabled kt-aside--fixed kt-page--loading" style="@bodyrtlStyle">
+
+    <div class="kt-grid kt-grid--ver kt-grid--root">
+        <div class="kt-grid kt-grid--hor kt-grid--root  kt-login kt-login--v1" id="kt_login">
+            <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--desktop kt-grid--ver-desktop kt-grid--hor-tablet-and-mobile">
+                <!--begin::Aside-->
+                <div class="kt-grid__item kt-grid__item--order-tablet-and-mobile-2 kt-grid kt-grid--hor kt-login__aside" style="background-image: url(../../Assets/media/bg/bg-4.jpg);">
+                    <div class="kt-grid__item">
+                        <a href="#" class="kt-login__logo">
+                            <img src="~/Assets/Bnsights/images/bnsights.png" style="max-width: 200px;">
+                        </a>
+                    </div>
+                    <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--ver">
+                        <div class="kt-grid__item kt-grid__item--middle">
+                            <h3 class="kt-login__title">Welcome to @appName!</h3>
+                            <h4 class="kt-login__subtitle">The best application that can ever be.</h4>
+                        </div>
+                    </div>
+                    <div class="kt-grid__item">
+                        <div class="kt-login__info">
+                            <div class="kt-login__copyright">
+                                &copy @DateTime.Now.Year @appName @appVersionNumber
+                            </div>
+                            <div class="kt-login__menu">
+                                @*<a href="#" class="kt-link">Privacy</a>
+                                    <a href="#" class="kt-link">Legal</a>
+                                    <a href="#" class="kt-link">Contact</a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--begin::Aside-->
+                <!--begin::Content-->
+                <div class="kt-grid__item kt-grid__item--fluid  kt-grid__item--order-tablet-and-mobile-1  kt-login__wrapper">
+                    @RenderBody()
+                </div>
+                <!--end::Content-->
+            </div>
+
+            @*<div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" style="background-image: url(../../Assets/media/bg/bg-3.jpg);">
+                    <div class="kt-grid__item kt-grid__item--fluid kt-login__wrapper">
+                        <div class="kt-login__container">
+                            <div class="kt-login__logo">
+                                <a href="#">
+                                    <img src="/assets/Bnsights/images/bnsights.png" style="max-width:300px;">
+                                </a>
+                            </div>
+                            @RenderBody()
+                            <div class="text-center kt-margin-t-15">
+                                <a id="btnChangeLanguage" href="/Home/ChangeLanguageAnonymous" class="btn btn-default lang-text  btn-sm">
+                                    @if (ViewBag.IsArabic)
+                                    {
+                                        <text>English</text>
+                                    }
+                                    else
+                                    {
+                                        <text>العربية</text>
+                                    }
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+    </div>
+    <!-- End Page -->
+
+    <script>
+        var KTAppOptions = {
+            "colors": {
+                "state": {
+                    "brand": "#5d78ff",
+                    "dark": "#282a3c",
+                    "light": "#ffffff",
+                    "primary": "#5867dd",
+                    "success": "#34bfa3",
+                    "info": "#36a3f7",
+                    "warning": "#ffb822",
+                    "danger": "#fd3995"
+                },
+                "base": {
+                    "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+                    "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                }
+            }
+        };
+    </script>
+
+
+    @if (isLoadMaps)
+    {
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places&language=@langKey&key=AIzaSyDaqLzsDywi8RgZNDd1sFqOzRFWHr-ZSWM"></script>
+    }
+
+
+    <!-- Begin : Base Scripts -->
+    @{
+        Html.RequiresJsBundle("AnonymousScripts");
+
+    }
+    <!-- End : Base Scripts -->
+    <!-- Begin : Bnsights Scripts -->
+    @{
+        if (ViewBag.IsArabic)
+        {
+            Html.RequiresJsBundle("BnsightsScriptsAR");
+
+        }
+        else
+        {
+            Html.RequiresJsBundle("BnsightsScriptsEN");
+
+        }
+
+    }
+    <!-- End : Bnsights Scripts -->
+    @Html.RenderJsHere()
+
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,29 @@
+﻿@{
+
+}
+
+<h3>
+    @BRes.Main.Home
+</h3>
+
+<ul>
+   
+    @foreach (var menu in MvcApplication.MenuLinks)
+    {
+        <li class="@menu.CssClass">
+            <img src="@menu.IconUrl" class="bbsfAdminImage" style="width:25px;height:25px" />
+            <a href="@Url.Content(menu.Url)">@menu.Name.Current</a>
+            @if (menu.SubMenus.Any())
+            {
+                <ul>
+                    @foreach (var submenu in menu.SubMenus)
+                    {
+                        <li class="@submenu.CssClass">
+                            <a href="@Url.Content(submenu.Url)">@submenu.Name.Current</a>
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>

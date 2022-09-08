@@ -1,0 +1,57 @@
+﻿@{
+    Layout = "~/Views/Layout/_AnonymousLayout.cshtml";
+    ViewBag.Title = UI.UnexpectedError;
+    var backIconClass = ViewBag.IsArabic ? "fa fa-arrow-circle-right" : "fa fa-arrow-circle-left";
+}
+<p class="text-left">@ViewBag.Message</p>
+<div class="row">
+    <div class="col-md-12">
+        <a class="float-left" href="/Home/Index/">
+            <i class="icon fa fa-home" aria-hidden="true"></i>
+            @UI.ClickHereToGoToHome
+        </a>
+    </div>
+    <div class="col-md-12">
+        <a class="float-left" href="#" onclick="goBack();"><i class="icon @backIconClass" aria-hidden="true"></i>@UI.Back</a>
+    </div>
+    <div class="col-md-12">
+        <a class="float-left" href="/Home/Logout">
+            <i class="icon fa fa-power-off" aria-hidden="true"></i>
+            @UI.Logout
+        </a>
+    </div>
+</div>
+<h4 class="example-title">@UI.ErrorCode</h4>
+<div class="form-group">
+    <div class="input-group">
+        <input type="text" class="form-control js-copytextarea" name="ErrorCode" value="@ViewBag.CorrelationID" readonly="readonly">
+        <span class="input-group-btn" title="@UI.CopyToClipboard">
+            <button type="submit" class="btn btn-default js-textareacopybtn"><i class="fa fa-clipboard" aria-hidden="true"></i></button>
+        </span>
+    </div>
+</div>
+
+<script>
+    function goBack() { window.history.back(); }
+
+    var everythingLoaded = setInterval(function () {
+        if (/loaded|complete/.test(document.readyState)) {
+            clearInterval(everythingLoaded);
+
+            var copyTextareaBtn = document.querySelector('.js-textareacopybtn');
+
+            copyTextareaBtn.addEventListener('click', function (event) {
+                var copyTextarea = document.querySelector('.js-copytextarea');
+                copyTextarea.select();
+
+                try {
+                    var successful = document.execCommand('copy');
+                    var msg = successful ? 'successful' : 'unsuccessful';
+                    console.log('Copying text command was ' + msg);
+                } catch (err) {
+                    console.log('Oops, unable to copy');
+                }
+            });
+        }
+    }, 10);
+</script>

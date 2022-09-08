@@ -1,0 +1,88 @@
+﻿@model Bnsights.CoreLib.DTOs.Model.AccountMngmnt.ResendActivationModel
+@{
+    Layout = "~/Views/Layout/_AnonymousLayout.cshtml";
+    ViewBag.Title = UI.Login_ResendActivation;
+}
+
+<!--begin::Head-->
+<div class="kt-login__head">
+    <span class="kt-login__signup-label">@UI.Login_HaveAnAccountAlready</span>&nbsp;&nbsp;
+    <a href="/Home/Login" class="kt-link kt-login__signup-link">@UI.Login</a>
+</div>
+<!--end::Head-->
+<!--begin::Body-->
+<div class="kt-login__body">
+    <!--begin::Signin-->
+    <div class="kt-login__form">
+        <div class="kt-login__title hideOnSuccess">
+            <h3>@UI.Login_ActiviationResendMessage</h3>
+        </div>
+
+        @using (Ajax.B_DefaultAjaxForm(new AjaxFormOptions()
+        {
+            Action = "ResendActivation",
+            SuccessFunction = "clientsidePostBack",
+            HtmlAttributes = new { @class = "hideOnSuccess" },
+        }))
+        {
+            @*<div class="form-group">
+                    <label class="sr-only" for="inputEmail">@UI.Email</label>
+                    <input type="email" class="form-control v-required" maxlength="256" autocomplete="email" id="inputEmail" name="Username" placeholder="@UI.Email">
+                    @Html.HoneypotInput()
+                    @Html.AntiForgeryToken()
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">@UI.Login_ResendActivation</button>*@
+            <div class="kt-form">
+                <div class="input-group">
+                    <input class="form-control" type="email" maxlength="256" autocomplete="email" id="inputEmail" name="Username" placeholder="@UI.Email">
+                    @*@Html.HoneypotInput()*@
+                    @Html.AntiForgeryToken()
+                </div>
+                <div class="kt-login__actions">
+                    <button id="kt_login_forgot_submit" class="btn btn-brand btn-elevate kt-login__btn-primary btn-block">@UI.Login_ResendActivation</button>
+                </div>
+            </div>
+        }
+
+        @*<p class="hideOnSuccess"><a href="/Home/Login">@UI.Login</a></p>*@
+
+        <div class="kt-login__account">
+            <div class="row showOnSuccess d-none">
+                <div class="col-md-12">
+                    <h3 class="blue-grey-100">@UI.Login_ResendActivationConfirmation</h3>
+                </div>
+                <div class="col-md-12">
+                    <a href="/Home/Login">@UI.Login</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center kt-margin-t-15">
+            <a id="btnChangeLanguage" href="/Home/ChangeLanguageAnonymous" class="btn btn-default lang-text  btn-sm">
+                @if (ViewBag.IsArabic)
+                {
+                    <text>English</text>
+                }
+                else
+                {
+                    <text>العربية</text>
+                }
+            </a>
+        </div>
+
+    </div>
+
+    <!--end::Signin-->
+</div>
+<!--end::Body-->
+
+
+<script>
+    function clientsidePostBack(result) {
+        if (result.val) {
+            $('.hideOnSuccess').hide();
+            $('.showOnSuccess').show();
+        }
+    }
+</script>

@@ -1,0 +1,84 @@
+﻿@model Bnsights.CoreLib.DTOs.Model.AccountMngmnt.SignUpModel
+@{
+    Layout = "~/Views/Layout/_AnonymousLayout.cshtml";
+    ViewBag.Title = UI.SignUp;
+}
+<!--begin::Head-->
+<div class="kt-login__head">
+    <span class="kt-login__signup-label">@UI.Login_HaveAnAccountAlready</span>&nbsp;&nbsp;
+    <a href="/Home/Login" class="kt-link kt-login__signup-link">@UI.Login</a>
+</div>
+<!--end::Head-->
+<!--begin::Body-->
+<div class="kt-login__body">
+    <!--begin::Signin-->
+    <div class="kt-login__form">
+        <div class="kt-login__title">
+            <h3>@UI.SignUp</h3>
+        </div>
+        @using (Ajax.B_DefaultAjaxForm(new AjaxFormOptions()
+        {
+            Action = "SignUp",
+            SuccessFunction = "clientsidePostBack",
+            HtmlAttributes = new { @class = "hideOnSuccess" },
+        }))
+        {
+            var nameEN = $"{UI.Name} {UI.EN}";
+            var nameAR = $"{UI.Name} {UI.AR}";
+
+            <div class="kt-form">
+                <div class="form-group">
+                    <input class="form-control" type="text" maxlength="100" autocomplete="name" id="inputNameEN" name="NameEN" placeholder="@nameEN">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" maxlength="100" id="inputNameAR" name="NameAR" placeholder="@nameAR">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" maxlength="256" autocomplete="email" id="inputEmail" name="Username" placeholder="@UI.Email">
+                    @Html.HoneypotInput()
+                    @Html.AntiForgeryToken()
+                </div>
+                <div class="kt-login__actions">
+                    <button id="kt_login_signup_submit" class="btn btn-brand btn-elevate kt-login__btn-primary btn-block">@UI.SignUp</button>
+                </div>
+            </div>
+
+        }
+
+        <div class="kt-login__account">
+            <div class="row showOnSuccess d-none">
+                <div class="col-md-12">
+                    <h3 class="blue-grey-100">@UI.Login_SignUpThankYou</h3>
+                </div>
+                <div class="col-md-12">
+                    <a href="/Home/Login">@UI.Login</a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center kt-margin-t-15">
+            <a id="btnChangeLanguage" href="/Home/ChangeLanguageAnonymous" class="btn btn-default lang-text  btn-sm">
+                @if (ViewBag.IsArabic)
+                {
+                    <text>English</text>
+                }
+                else
+                {
+                    <text>العربية</text>
+                }
+            </a>
+        </div>
+
+    </div>
+
+    <!--end::Signin-->
+</div>
+<!--end::Body-->
+
+<script>
+    function clientsidePostBack(result) {
+        if (result.val) {
+            $('.hideOnSuccess').hide();
+            $('.showOnSuccess').show();
+        }
+    }
+</script>

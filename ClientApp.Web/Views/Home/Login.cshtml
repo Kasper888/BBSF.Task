@@ -1,0 +1,97 @@
+﻿@model Bnsights.CoreLib.DTOs.Model.AccountMngmnt.LoginModel
+@{
+    /**/
+
+    Layout = "~/Views/Layout/_AnonymousLayout.cshtml";
+    ViewBag.Title = UI.Login;
+}
+
+<style>
+    .input-imp-long {
+        display: none !important;
+    }
+</style>
+<!--begin::Head-->
+<div class="kt-login__head">
+    <span class="kt-login__signup-label">@UI.Login_SignUpQuestion</span>&nbsp;&nbsp;
+    <a href="/Home/SignUp/" class="kt-link kt-login__signup-link">@UI.SignUp</a>
+</div>
+<!--end::Head-->
+<!--begin::Body-->
+<div class="kt-login__body">
+    <!--begin::Signin-->
+    <div class="kt-login__form">
+        <div class="kt-login__title">
+            <h3>@UI.Login</h3>
+        </div>
+
+        @using (Ajax.B_DefaultAjaxForm(new AjaxFormOptions()
+        {
+            Action = "Login",
+            SuccessFunction = "clientsidePostBack",
+        }))
+
+
+        {
+
+            <!--begin::Form-->
+            <div class="kt-form">
+                <div class="form-group">
+                    <input class="form-control v-required" type="email" placeholder="@UI.Email" maxlength="256" autocomplete="off" id="inputEmail" name="Username">
+                </div>
+                <div class="form-group">
+                    <input class="form-control v-required" type="password" id="inputPassword" maxlength="32" name="Password" placeholder="@UI.Login_Password">
+                    @Html.AntiForgeryToken()
+                    @Html.HoneypotInput()
+                    @Html.HiddenFor(m => m.RedirectUrl)
+                </div>
+
+                <!--begin::Action-->
+                <div class="kt-login__actions">
+                    <a href="/Home/ForgotPassword/" class="kt-link kt-login__link-forgot">@UI.Login_ForgetPassword</a>
+                    <button type="submit" id="" class="btn btn-primary btn-elevate kt-login__btn-primary">@UI.Login</button>
+                </div>
+
+                <!--end::Action-->
+            </div>
+
+            <!--end::Form-->
+        }
+        <div class="kt-login__account text-center">
+            <a href="/Home/ResendActivation/" id="" class="kt-login__account-link">@UI.Login_ResendActivationQuestion</a>
+        </div>
+        @*<p>@UI.Login_SignUpQuestion <a href="/Home/SignUp/">@UI.SignUp</a></p>
+            <p><a href="/Home/ResendActivation/">@UI.Login_ResendActivationQuestion</a></p>*@
+
+        <div class="text-center kt-margin-t-15">
+            <a id="btnChangeLanguage" href="/Home/ChangeLanguageAnonymous" class="btn btn-default lang-text  btn-sm">
+                @if (ViewBag.IsArabic)
+                {
+                    <text>English</text>
+                }
+                else
+                {
+                    <text>العربية</text>
+                }
+            </a>
+        </div>
+
+    </div>
+
+    <!--end::Signin-->
+</div>
+<!--end::Body-->
+
+<script>
+    function clientsidePostBack(result) {
+        if (result.val) {
+            $('input[type="submit"]').attr("disabled", "disabled");
+            window.location = result.url;
+        }
+    }
+    $(function () {
+        var newVal = $('#RedirectUrl').val() + window.location.hash
+        $('#RedirectUrl').val(newVal)
+    });
+
+</script>

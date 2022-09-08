@@ -1,0 +1,74 @@
+﻿@model Bnsights.CoreLib.DTOs.Model.AccountMngmnt.ActivationModel
+
+@{
+    ViewBag.Title = UI.Login_Activate;
+    Layout = "~/Views/Layout/_AnonymousLayout.cshtml";
+}
+
+
+@if (!Model.IsValid)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h3 class="blue-grey-100 black">@Model.ValidationError</h3>
+        </div>
+        <div class="col-md-12">
+            <a href="/Home/Login">@UI.Login</a>
+        </div>
+    </div>
+}
+else
+{
+
+
+    using (Ajax.B_DefaultAjaxForm(new AjaxFormOptions()
+    {
+        Action = "Activate",
+        SuccessFunction = "clientsidePostBack",
+        HtmlAttributes = new { @class = "hideOnSuccess" }
+    }))
+    {
+        <div class="form-group">
+            <h4 class="blue-grey-100 black">@Model.Username</h4>
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="inputPassword">@UI.Login_Password</label>
+            <input type="password" class="form-control" id="inputPassword" maxlength="32" name="Password" autocomplete="off" placeholder="@UI.Login_Password">
+        </div>
+        <div class="form-group">
+            <label class="sr-only" for="inputPasswordConfirmtion">@UI.Login_PasswordConfirmation</label>
+            <input type="password" class="form-control" id="inputPasswordConfirmtion" maxlength="32" name="PasswordConfirmation" autocomplete="off" placeholder="@UI.Login_PasswordConfirmation">
+            @Html.Hidden("Token", Model.Token)
+            @Html.HoneypotInput()
+            @Html.AntiForgeryToken()
+        </div>
+        <button type="submit" class="btn btn-success btn-block">@UI.Login_Activate</button>
+    }
+    <div class="list-group bg-blue-grey-100 bg-inherit hideOnSuccess text-left mt-20" style="background-color: rgba(208, 210, 212, 0.2784313725490196);">
+        <p class="list-group-item blue-grey-500">@UI.Password_RuleLength</p>
+        <p class="list-group-item blue-grey-500">@UI.Password_RuleNumber</p>
+        <p class="list-group-item blue-grey-500">@UI.Password_RuleSpecialCharecter</p>
+        <p class="list-group-item blue-grey-500">@UI.Password_RuleUperCase</p>
+        <p class="list-group-item blue-grey-500">@UI.Password_RuleLowerCase</p>
+    </div>
+
+
+    <div class="row showOnSuccess" style="display:none">
+        <div class="col-md-12">
+            <h3 class="blue-grey-100">@UI.SavedSuccessfully</h3>
+        </div>
+        <div class="col-md-12">
+            <a href="/Home/Login">@UI.Login</a>
+        </div>
+    </div>
+    <script>
+        function clientsidePostBack(result) {
+            if (result.val) {
+                $('.hideOnSuccess').hide();
+                $('.showOnSuccess').show();
+                $('input[type="submit"]').attr("disabled", "disabled");
+                window.location = result.url;
+            }
+        }
+    </script>
+}

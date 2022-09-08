@@ -1,0 +1,1572 @@
+﻿--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.98
+-------------------------------------------------------
+* controls (HTML Editor)
+	- summernote-rtl.css has been removed from control bundle (RequireAssets.cs).
+	- summernote-ar-AR.min.js has been added to form control bundle for AR Local.
+* BaseConfig added new key EnableFridayHalfWorkingDay
+* BusinessTimeCalculator now supports new Friday Half Working Day
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.97 (Pneding)
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+* BusinessTimeCalculator exposed int startMinute = 0, int endMinute = 0 in 
+	BaseConfig as BBSF_StartOfBusinessMinute and BBSF_EndOfBusinessMinute respectively
+*New SMS Provider Global SMS Provider "https://www.smsglobal.com/http-api/"
+*2FA in Login
+	BBSF_Enable2FA to enable it
+	If enabled after successful login
+		BBSF will use the default SMS provider and template with SysName represented in key BBSF_SMS2FATemplateSysName to send an OTP to the user
+		An exception of type Bnsights.CoreLib.Exceptions.TwoFactorAuthenticationRequiredException is thrown with Id represents user id 
+		ClientApp needs to get verification code from the user then use Verify2FACode function from AccountManagementLogic<T> to verify the user OTP
+		If the OTP is verified, then BBSF will generate UserIdentityModelWrapper
+
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.96
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+----------------------------------------------------------------------------
+* BBSF library 
+			-Add new option BBSF_EnableDeepSearch in web.config with default value false to stop recursive search
+			-Show file tags in listing, it needs to update current bbsf itemsview from BBSFConstants.BBSFMigrations.UpdateItemsViewSQLCmd
+			-Fix show checkboxs in readonly mode
+			-Add selector classes to all library buttons
+
+* Controls
+	-B_MultiFileUpload Fixed bug when FileUploadAcceptsTypes is none no types validation applied
+	-B_Paging,B_LoadMore script added hidden field that contains filters selectors and parameters name with class (BBSFPagingFilters).
+	-B_Paging,B_LoadMore script added condition if Bnsights.DisablePagingUpdate is enabled paging update listing will not be fired.
+
+*Bnsights.js
+	-Added flag DisablePagingUpdate by default equal false.
+
+*Views 
+	-UserAPP sort sectors filter before departments filter
+
+*Logic
+	-BBSFDEpartmentLogic (GetDepartmentsWithSector) added ":" before sector name.
+	-BBSFDEpartmentLogic (Delete) replace remove department by soft delete.
+	-SectorLogic (Delete) replace remove sector by soft delete.
+
+*Model
+	-Added soft delete to Sector,Department models.
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.95
+-------------------------------------------------------
+* BaseContext fix UndoPendingChanges to undo changes in both DBsets and navigation properties
+* FormValidationScripts.js Add new validation class v-no-special-characters
+* FileLogic add optional correlationID to ProcessFileDTO_ByGuids and ProcessFileDTO_ByInts
+* FileUpload control fix using validation class to start use required file upload in repeater 
+*Views
+	-Add,Edit user views removed language validation from user name.
+	-Add,Edit user views added sector name beside department in dropdown of department.
+	-Add, Edit user views fixed bug changed max length of EN,AR name to 100 instead of 30.
+	-UserAPP Added new filter (filter be sector).
+	-UserAPP fixed bug when filter by department then try to reset. 
+	-Department Listing Added new column in departments table that contains sector name of each department.
+
+*Logic
+	-BBSFDepartmentLogic GetByFilter Added sector name.
+	-BBSFDepartmentLogic Added method "GetDepartmentsWithSector" that returns departments with its sector name
+	-BBSFUserLogic GetUsersByFilter added search by SectorIDs
+
+*Fluentvalidation
+	-AddUserModelValidator removed language validation of user name EN,AR,
+	-EditUserModelValidator removed language validation of user name EN,AR,
+
+*DTOS
+	-EntityUserSearchParamDTO added string SectorIDs.
+	-DepartmentDTO added EnglishArabicDTO SectorName
+
+*Controllers
+	-BBSFUserController (Loaddropdowns) added viewData of sectors list.
+	-BBSFUserController (Add) changed ViewData of depatrments return departments with its sectorname
+	-BBSFUserController (Edit) changed ViewData of depatrments return departments with its sectorname
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.94
+-------------------------------------------------------
+* BBSFUserLogic<T> changed to BBSFUserLogic<T, TContext> where TContext should be ClientAppConext, to be able Fix DeleteUser
+* FileLogic added new method UpdateFileMetadata(int fileID, string name, string tags = null) to be able to update file name and tags without changing the bytes
+* TMETaskLogic updated method "ForceAssignUserTask" added "sendEmail" boolean parameter is true by default to make sending email optional.
+* WFProcessor updated method "AssignUserTaskToCurrentInstance" added "sendEmail" boolean parameter is true by default to make sending email optional.
+
+* bnsights.js
+	- Fixed bug in IE (Bnsights is not defined) change arrow function that used in "getFileType" function to a normal function.
+	- Fixed bug in initializeAutocompleteModalMap, it was not initializing an instance of google.maps.places.Autocomplete instead of google.maps.Map
+
+* FormValidationScripts.js 
+	- added validation on dropdowndatepicker to reject non logical dates, exmple: reject 31 feb
+
+* Controls
+	B_FileUpload Attributes were not set at all on the input
+	B_ImageUplad Attributes were not set at all on the input & was not setting the LabelDescriptionEN
+	B_MultilingualTextArea was not setting the LabelDescriptionEN when control ViewType == ControlLayout.Horizontal
+	B_DatetimePicker was not setting the LabelDescriptionEN when control ViewType == ControlLayout.Horizontal
+	B_DropdownDatepicker was not setting the LabelDescriptionEN when control ViewType == ControlLayout.Horizontal
+	B_EID was not setting the LabelDescriptionEN
+	B_MapAutoComplete was not setting the LabelDescriptionEN
+	B_FileUpload - B_MultiFileUpload override jquery validation message by custom message 
+	B_FileUpload added CSV extension as a File Type  
+	B_MapAutoComplete was not setting ValidationClasses
+	B_MapAutoComplete pervent close parent model when click on child close button
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.93
+-------------------------------------------------------
+* Localization 
+	- LocalizationLogic fixed bug in method 'CreateOrUpdateUnmodified' when there is more than one resource with the same local Id,
+		when create Arabic resource set value with arabic value ,comment with arabic comment, localId="ar"
+	- LocalizationsController added ValidateInput(false) on Add & Edit, to allow including Html in the localizations
+* Added new Config Key BBSF_DisableHangFire, that disables hangfire on a specific instance/projcet, default value is False.
+* TemplateLogic public List<System.Web.Mvc.SelectListItem> GetAll(), Changed selected attribute in SelectListItem to false
+* JobsLogic added new method to support backToback jobs execution (continuation) to be executed after the successful completion of the parent Job
+	AddJob(string parentJobId, Expression<Action> methodCall)
+
+* Controls
+	- SendEmailControlLogic fix send email with custom template
+	- MultipleFileUpload & FileUpload 
+		added hidden field on each file with sizeMB
+		fixed some translations 
+		FileUploadAcceptsTooltip implemented string.Join instead of concatenating commas 
+		Fixed bug in accept types (it accepted files other than the allowed extensions), to remove the file from the input and JSON 
+	- Dropdown control added new option to limit selected options count
+	- EnglishArabicDTO added virtual modifier to English and Arabic properties in EnglishArabicDTO so that they can be overridden
+
+* FormValidationScripts.js 
+	- added new option to the v-arabic to enable strict arabic validation (no english charaters allowed), by adding an extra class to the control v-strict-arabic
+	- fixed validate EID format incase of empty EID
+	- ValidateDiv changed the scroll to top to the closest invalid element instead of the top of the form
+		WAS: $('html, body').animate({
+						scrollTop: error.offset().top - 70  // header height
+					}, 800);
+		NOW: var label = $(validator.errorList[0].element).parents(".pv-control").find(".b-label");
+					var scrollToElement = label.length > 0 ? label : $(validator.errorList[0].element);
+					$('html, body').animate({
+						scrollTop: scrollToElement.offset().top
+					}, 300);
+
+* Updated handlebars.js to latest version 4.7.7 instead of 4.0.11 and changeed it in require assets of type chat
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.92
+-------------------------------------------------------
+//Controls
+* Added option ("RestrictedCountries" comma separated string) to map auto complete control to restrict search results to specific countries
+	Note: countries should be in 2 digit code,up to 5 countries, by default no restriction
+* UserIdentity empty constructor UserIdentity() this.Identity = new GenericIdentity()
+* Update AzureBaseConfig to not throw exception when the key is not found
+
+--------------------------------------------------------
+
+// CoreLib.BLL
+* Editing in SendEmailControlLogic SendMail, when mail mode is CustomEmail and both arabic and english fields exist,
+   the email will be sent depending on the language key of the user
+
+-----------------------------------------------------------
+//Bnsights.Mvc
+* Adding option called "EnableUnselectBootstrapSelect" in DropDown.cs, that adds "nothing selected" option to drop down list,
+  in order to enable select nothing in single unrequired DDL
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.91
+-------------------------------------------------------
+* FileLogic get Correlation fixed bug in GetCorrelation & GetCorrelation_FolderLogic,
+	when loadBytes is true, then use file.ProviderName not the default provider - GetProvider(f.ProviderName) instead of GetProvider()
+* MultipleFileUploadControl FileUploadAcceptsMIMETypes added (image/jpeg) to case FileType.ImageTypes:
+* fix multi file upload control with unique file id 
+* fix eid control to be vaild if start with 784 and ignore if country is egypt
+* Fixed BBSF initialCreate countries seed
+* added new config key BBSF_Hangfire_AddSequentialQueue to enable hangfire jobs run sequential and AddSquentialJob to JobsLogic
+* Adding handling to the Azure Modules if AzureModeEnabled app settings key is set to true
+	BaseContext-BaseConfig-Logger-AzureBaseConfig-Startup (Handle Hangfire connectivity)-AdSynchronizationLogic
+* Update License page in admin screen to handle different cases of uploading a license, either replace the existing one or merge it
+* Update Workflow TaskOutcomeDTO to include the SysName
+
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.90
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+* fix reset checkbox in paging control
+* Run data migration from https://www.dropbox.com/s/m0zv3q62qjxzj3o/countries.sql?dl=1
+* FileDTO.NameWithExtension handled null reference Exception 
+* Added new Nuget Package HangFire.Console which enables adding custom messages to the Hangfire dashboard 
+	Sample usage: https://github.com/pieceofsummer/Hangfire.Console
+        jobsLogic.AddJob(() => this.Test(null));
+		public void Test(PerformContext context)
+        {
+            context.WriteLine("Hello, world!");
+        } 
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.89
+-------------------------------------------------------
+* added new config key BBSF_Hangfire_UseDashboard and BBSF_Hangfire_DashboardPermSets to enable hangfire OOB dashboard
+* LookUpItemLogic & AccountManagementLogic changed fields from private to protected
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.88
+-------------------------------------------------------
+* Localization Logic GenerateStronglyTypedClass escaped text in the xml comments <summary>
+* Added validation rule to div with tags input
+* Fix add and remove rules for send email control
+* FileLogic 
+	UpdateFile,TryUpdateFile,ProcessFileDTO_ByGuids,ProcessFileDTO_ByInts,SaveMultipleFileUpload added providerName & folderID parameters
+	Marked SaveMultipleFileUpload_FolderLogic as Obsolete
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.87
+-------------------------------------------------------
+* Added new Config Key BBSF_SkipHWDetection, that will prevent ClientMachineLogic from executing the HWReader which in some high security environments might not work
+* FileLogic.CleanFileName added logic to remove InvalidFileNameChars
+* ActivationModel Added NameEN & NameAR
+* FormValidationScripts, v-email changed the regex to a more updated one to adapt modern cases like .online & .tech etc..
+* Fix reset selectors in paging for bootsrap select(use refresh not deselectAll) to fix single select reset
+* Add line to bnsights.js (dialogsInBody: true) in summernote initialize to stop close all modals when try to add image 
+* LibraryMaximumFileSizeInMB changed default value to 5 MB
+
+* Contorls
+	* FileUpload and MultipleFileUpload contorl options added DownloadFileURL: used to override the download file URL, if not BBSF default 
+	* FileUpload, MultipleFileUpload, MultilingualHtml changed IsBoldLabel default value to be true, to match with all other controls
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.86
+-------------------------------------------------------
+* NotificationsLogic, Bnsights.Providers.Email.EWS and Bnsights.Providers.Email.Smtp 
+	changed log messages to start with a distinguished text, to be able to exclude them from logs reader
+* Updated resource ملفات to الملفات
+* Bnsights.Providers.Email.Smtp.SmtpProvider added new optional attribute "FromAddress", to handle the case when MailBox username is different from the domain username
+* ClientMachineLogic.NotifyAllInstances added a ServicePointManager.ServerCertificateValidationCallback to bypass any certificate errors
+* FormValidationScripts.js AddValidationRulesToDiv updated addExtraRules(elem) to take elem in the parameters, it was not sending anything, so it wasn't usable
+* AccountManagementLogic<T> : IAccountManagementLogic forgetPasswor, added a check, if user has a deactivation date, then they cannot recieve a forget password email, and set deactivation date to null on re-activate
+
+// Styles
+* added custom branding class to imagecropper control
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.85
+-------------------------------------------------------
+* Bnsights.CoreLib.Model.BBSFContext added new method: PreloadProviders(Autofac.ILifetimeScope scope) 
+  that can be called during migrations seed function to load providers to be able to create files during migrations
+* BBSFConfiguration (Initial Seed) changed providers creation to be context.Providers.Create() to create attached providers to help PreloadProviders
+* Bnsights.Providers.File.Sql.SqlProvider changed the execution of TryCreateDatabase to be in TransactionScope(TransactionScopeOption.Suppress) to allow creating the database while an outer Transaction is executing 
+* LookUpItemLogic.GetName fixed null reference exception
+* Bnsights.js
+	InitializeTableSearch: SelectorsArray parentSelector trimmed
+* Controls
+	Paging, fixed bug in reset filters, it used to reset all bootstrap select in the page, not the desired filters
+	MultipleFilesUpload
+		when uploading a file in a page where no refresh is needed, the html needs to update the ID_GUID and clear the JSON for the inserted files, for further modifications
+		Added a new method to Bnsights.js Bnsights.MultipleFileUploadPostback(containerQuery, multipleFilesUploadDTO)
+		where multipleFilesUploadDTO is the object that is passed to FileLogic.SaveMultipleFileUpload
+
+* Assets fixed file name switchery.min.rtl.css to switchery.min-rtl.css invalid link
+* Active Directory Update: handle the case where the user is disabled in AD to reflect his activity status to the user imported or updated in our database.
+  Add the below LookupItem in your application migrations in case you want to use the new AD sync feature
+	  // dont forget to use ClientLookupItem if u r extending the LookupItem class
+      context.LookupItems.AddOrUpdate(l=> l.ID, new LookupItem()
+            {
+                ID = 14004,
+                NameEN = "True or False (Boolean)",
+                SysName = "ADBoolean",
+                NameAR = "صحيحة أو خاطئة",
+                DisplayOrder = 0,
+                LookupID = 14,
+                Manageable = false,
+            });
+
+//Modules
+*Library
+ Fixed a bug where an html editor could not be focused when it existed with the library on the same page
+ //Logic
+ * Lookupitem Logic Get_SelectListItem fix order by displayorder 
+
+ * Bnsights.Tools.Excel 1.0.0.13 added new Property to ExcelSheet List<int>HiddenColumnsIndecies, that hides the columns, to enable adding ID columns for example.
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.84
+-------------------------------------------------------
+[BREAKING CHANGE] in Bnsights.Tools.Excel
+-------------------------------------------------------
+* FileLogic 
+	SaveMultipleFileUpload Changed Delete to TryDetele
+	added a new method TryUpdateFile
+
+* Bnsights.Tools.Excel 1.0.0.9 
+	BDataRow added new property ColumnName_BackgroundColor to color a specific cell
+* Bnsights.Tools.Excel 1.0.0.10
+	ExcelTable added new Property UrlColumnProperties to specify Url columns that render as Hyperlinks
+	ExcelSheet added new Property RightToLeft to render RTL sheets 
+	HeaderCell added new Properties: TextColor, ColSpan, RowHeight, and FontSize to customize header row
+
+* [BREAKING CHANGE] Bnsights.Tools.Excel 1.0.0.11 and 1.0.0.12
+	ExcelTable HasTitle, TitleColor, and FirstRowCells are now Obsolete, that do no action.
+	They are replaced by TitleRow property on ExcelSheet level and ExcelTable level
+	
+* Bnsights.Tools.Word 1.0.0.9 
+	Updated DocX library to version 1.7.1 
+* FileController 
+	Correlation(Guid id, string zipFileName = null) added zipFileName to allow setting the desired zip file name
+	Get(Guid id, bool inline = false) fixed a bug when downloading a file that has a single quote (') in its name
+* Datetimepicker Control
+	Create overlay with css to disable the control (bnsights-controls.css) as the plugin doesn't support the diabled attribute.
+
+
+* Bnsights.js 
+	InitializeReadMore changed (<a href="#" class="btn btn-outline btn-default btn-xs">' + VAL.ReadMore) to <a href="javascript:void(0)" class="btn btn-outline btn-default btn-xs">' + VAL.ReadMore
+	href="javascript:void(0)" instead of href="#" 
+//Modules
+* HelpCenter
+	Fixed a bug, where the description wasn't appearing.
+	Added truncate to titles and descriptions.
+	Fixed a bug, where the height of carousel elements was not equal.
+	Fixed a bug, where the current permission set was not passed properly.
+* Library
+	Fixed a bug in library where anonymous users couldn't view the library
+
+
+
+--------------------------------------------------------------------------------------------------------------
+BBSF 1.2.1.83
+-------------------------------------------------------
+//Modules
+* Fixed a bug in chat where no title would be displayed for the room if it didn't have an english and an arabic title
+* Bnsights.MVC public area, added CommunicationController as it was missing from previous version (BBSF 2.1)
+
+//Styles
+* Added branding classes(brand_primary-bg,brand_primary-fontcolor) to image cropper and pagination controls.
+
+
+// Controls
+* Paging Control, getFilters method, handled undefined and empty arrays to be sent as empty strings
+* Send Email Control, 
+	relied on Paging Control getFilters method, 
+	removed Filters list and replaced it with GetFiltersFunctionName
+	renamed FilteredUserSelector to SourcePage
+* SendEmailControlLogic, 
+	corrected wrong implementation as it was not using an instance of IBBSFSendFilteredMailLogic to resolve filters, 
+	BBSFUserLogic is the default implementation of IBBSFSendFilteredMailLogic
+	Handled error while converting json arrays to CSV string, & utilized Newtonsoft instead of JavaScriptSerializer
+	Removed Method List<int> GetUsersIDSByFilters from IBBSFUserLogic
+* MultiplueFileUpload and FileUpload changed conversion of FileMaxSizeInMB from MB to bytes factor, was 1000000 now 1048576
+* InitializeTableLogic changed Bnsights.LangMode initialization behavior to adapt to v-required
+* ProfileImageCropper change required class to .v-required-profilepicturecropper  and put it on the container to validate the input file name and the image
+  change checkCroppedImage fn in Formvalidation Script ,by find file name by .name-file-required
+
+BBSF 1.2.1.82
+-------------------------------------------------------
+* FormValidationScripts-AR.js changed EID validation message to a generic message, to be able to use it with different countries (like EGY)
+	Please Enter a valid ID
+	برجاء أدخال الرقم بشكل صحيح
+* Updated resource key Date from تاريخ to التاريخ
+* Updated resource key Details from تفاصيل to التفاصيل
+* Bnsights.js Returned missing code during merge table logic with lang mode (Change set no: 36166 )
+* Bnsights.Tools.Excel added new property ImageColumnProperties[] ImageColumnsNames to ExcelTable, the specified column names should contain physical path to the required images
+* ADConnectionController LastRunLogs used JSON_MaxJsonLength 
+
+// Styles
+* Added branding classes(brand_primary-bg,brand_primary-fontcolor,brand-primary-hover-color) to library module ,chat module and image cropper control.
+
+// Controls
+*Add CurrentPageNumber to paging options (Default is 1)
+
+BBSF 1.2.1.81
+-------------------------------------------------------
+//Modules
+* Fixed a bug in library where clicking on the copy button in the file properties would scroll the page
+* Fixed a bug in library where clicking on a folder in the copy/move file/folder modal would scroll the page
+* Fixed a bug in chat where if the chatroom didn't have an english or arabic name, it would show the chatroom's usernames as the chatroom's title
+* Fixed a bug in helpcenter in user side where clicking on the second level would show an empty third level regardless if it has contents or not
+* FileLogic fixed TryDelete methods. they were throwing exceptions when file not found (against the intended use of it)
+
+//controls
+*Load more control pass parameter refreshFlag (IsFilterUpdated) to OnSuccessCallBackJSFunction
+*Paging Control fix an issue for adapting paging when deleting last item occured in last page.(re callback for initializating)
+
+//Scripts
+* Bnsights.js
+	add data-currentwordcount attribute to InitWordCount
+
+
+BBSF 1.2.1.80
+-------------------------------------------------------
+* Bnsights.Tools.Excel Handle empty cells (NullRefrenceException) in ToDataTable Method in Excel Reader(Adding empty cells)
+* Added new appSettings BBSF_TLSProtocols which specifies TLS protocols supported by an application
+	default value is (Tls12) which specifies Tls1.2
+	it is CSV key and can support one or more protocols, possible values are:
+		Ssl3:  Secure Socket Layer (SSL) 3.0 security protocol
+        Tls:   Transport Layer Security (TLS) 1.0 security protocol
+        Tls11: Transport Layer Security (TLS) 1.1 security protocol
+        Tls12: Transport Layer Security (TLS) 1.2 security protocol
+
+//Controls
+* MapAutoComplete control, added a new option MapLocationPicker that enables the user to click on the arrow button to pick the location through a modal showing a map.
+* MapAutoComplete control, added default latitude and default longitude options, note that these will only work if the MapLocationPicker option is enabled.
+* Phone used web.config key BBSF_IDDefaultCountry to globally set SelectedInitialCountry and PreferedCountries, default country is UAE.
+* FileLogic 
+	ProcessFileDTO_ByInts & ProcessFileDTO_ByGuids added new overload, that has a new parameter (out bool isChanged) to indicate wether the file is changed or not.
+	UpdateFile(Guid fileID_GUID.. added missing optional parameter string tags
+
+//Scripts
+* Bnsights.js
+	add clear dropdown datepicker in clear controls function.
+	add global variabls in bnsights as LangMode
+	in initializting table logic (repeater) , check if the control has v-required and langmode is initialized to add config-required automatically.
+	added new method String.prototype.replaceAll that replaces all occurences of a string in a string.
+	Add attribute CurrentWordCount in InitWordCount and initialized in document ready.
+	Added new functions to Bnsights object ClientInitialize & ClientReinitialize that called respectively from Bnsights.MainModule.initialize & Bnsights.MainModule.reinitialize, to allow client apps to hookup custom controls
+
+* FormValidationScripts.js
+	fixed EID validation using static length 15 for UAE, to use the pattern instead to support Egypt National ID.
+	Add validation from max word count.
+
+
+BBSF 1.2.1.79
+-------------------------------------------------------
+//Logic
+* Fixed search departments in sector
+* FileController added new action /File/Correlation/{id}, that downloads a zipFile for a correlationID (Note: it is designed for small correlations)
+
+BBSF 1.2.1.78 
+-------------------------------------------------------
+* EID control options, added new property Country (enum contains UAE & Egypt), to enable using the control with the Egyptian National ID
+	there are many ways to determine the pattern, listed below, ordered by percedence 
+		EIDOptions.Pattern: use this when the country is not in the enum (UAE & Egypt)
+		EIDOptions.Country: use this to manually choose a country
+		web.config key BBSF_IDDefaultCountry: to globally set country name (UAE & Egypt)
+		if none of the above apply, default country is UAE
+
+//Controls
+*Paging control-added new option MaxVisible that takes number of pages to be visible (Default 5)
+
+//Logic
+*Fixed search users in department
+
+BBSF 1.2.1.77 
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+* Edit in Folder model, NameEN and NameAR are no longer required
+* Changeed Sector schema to be under BBSF schema
+
+//Modules
+* Fixed a bug in chat where pressing enter would create a new line then send, now shift+enter creates a new line and enter sends
+* Fixed a bug in chat where pressing enter multiple times while sending a file would send the file multiple times
+* Fixed a bug where the chatroom would be accessible to a user even after said user has left the room, 
+  if the user tries to access a chatroom that they left, they will be greeted with a message informing them that they already left the room
+* Fixed a bug in library where the Add File button would disappear when navigating through the breadcrumb
+* Edit in library is now replaced with modal instead of inline edit
+* Added language mode support to library, folder NameEN and NameAR are set to required or not required based on the language mode selected
+* Fixed a bug in library where a file could not be renamed when the current language is Arabic
+* Fixed a bug in library where when moving a file or folder, once a folder is selected, it cannot be deselected.
+----------------------------------------------------------
+//Scripts
+*Fixed a bug in checkEndDate validation method for DateTimePicker control (FormValidationScripts.js)
+*Fixed a bug in checkAllDateInputsFunction validation method to make sure all the fields of date selected if selected any ddl (FormValidationScripts.js)
+
+----------------------------------------------------------
+
+//Styles
+* Fixed rtl styles in Library (bnsights.css and bnsights-rtl.css)
+* Fixed message styles in chat (bnsights.css)
+
+
+----------------------------------------------------------
+//Logic
+* Added AssignedToID, AssignedToIDEncrypted to GetLogsViewModel method
+* Added CheckIfMemberOfRoom method to ChatLogic
+* Added ForceAssignUserTask and ForceKillUserTask methods to TMETaskLogic
+----------------------------------------------------------
+//Views
+* Fixed MaxLength of Department and Sector
+
+
+
+BBSF 1.2.1.76
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+* SqlFileProvider, stopped querying against master database, to support azure (cloud) scenarios
+* ClientMachineLogic, handeled UnauthorizedAccessException, as in (azure) cloud senarios, AppPool does not have access to the HW architecture, by using config key values to identify nodes.
+	In other words, node to node syncronization is not working on cloud, when the app is scaled out.
+* TransactionFactory, changed optional parameter timeoutInMins from 16 to null and used config key TransactionTimeoutInMins value instead
+* BaseConfig added new keys 
+	TransactionTimeoutInMins: default value is 16
+	MachineCode: a guid to identify node
+* FileLogic, added new overload GetFile_FolderLogic to use Guid fileID_GUID
+* SignUpModel added new property Token to override BBSF default Activation Token
+* Increased Activation Token Size from 25 to 256, to adapt to a bigger number of non active users
+* Lookupitem Logic Get_SelectListItem add order by displayorder 
+* Modified all Save and cancel buttons to be btn-success and btn-danger 
+* Reordered Admin menu
+
+//Modules
+* Adding Sector Module for linking departments with sectors (/Admin/Sector)
+
+// scripts
+* add abstractFunction addExtraRules in Formvalidation Scripts to be overrided in any clientproject customised businesss need.
+
+
+BBSF 1.2.1.75
+-------------------------------------------------------
+* Image Upload add v-required-profileimage class  --> issue from version 1.2.1.62
+* Adding new file Logic working with ado.net Called File2Logic
+* Fixing Issue for Bnsights.js  AutocompleteTagsInput Control
+* Adding Intensive logging for AD Sync 
+* MultilingualLabel fixed issue on arabic input, it was using Model.Attributes_En instead of Model.Attributes_Ar
+* CustomMigration<T>.ExecuteScript(T context, string script) added more descriptive error 
+* Bnsights.Tools.Excel added new features (BDataTable & BDataRow) as extensions for the default DataTable, to enable row BackgroundColor, Height, FontSize, and VerticalAlignment
+* Fix for clearcontrol fn for fileupload  in Bnsights.js
+
+
+BBSF 1.2.1.74 
+-------------------------------------------------------
+* Edit lookup, changed ID maxlength to 5 instead of 2
+* Changed Lookup Manageable to false for:
+	Activity Type
+	Variable Type
+	Variable Data Type
+* UI, and BRes fixed spelling mistake, Charecter to Character
+* Bnsights.js InitializeTableLogic added missing line var dataTable = $table.attr('data-table');
+* added missing double quotes to style attribute in:
+	B_FileUpload
+	B_MultilingualLabel
+	B_MultilingualTextArea
+	B_MultilingualTextBox
+	B_Paging
+* added new validation v-min-max to compare min cannot be greater than max, data-group: groups more than one minMax pairs, data-level(min/max): to identify which number is max
+* Fix AD Connection Department 
+* Map option group in dropdown control data source
+* Adding AutoCompleteTagsInput control that uses TagsInputValuedto and has option to allow free text.
+//Scripts 
+* Fix in repeater when there is no selectpicker included in the repeater.
+* Add style for paging to fix alignment issue in IE
+* Help Center:
+	- make desc in the 1st level trimmed to 4 lines
+	- add full desc to the 2nd level
+* CustomMigration<T>.ExecuteScript(T context, string script) fixed a bug when a part IsNullOrWhiteSpace continue instead of return!
+
+BBSF 1.2.1.73
+-------------------------------------------------------
+// Controls
+* B_Paging 
+	added function getFilters, that retrieves filter values, example usage: getFilters for excel export
+	Introduced .exclude-reset class, which excludes specific filters from reset filters, to enable excluding non changeable filters (hidden filters).
+
+BBSF 1.2.1.72
+-------------------------------------------------------
+// Logic
+* AccountManagementLogic.ForgotPassword in case use is not active, activation email is sent instead. But was not sending the KeyMap.
+* Departments/User, Fix Paging.
+* Fix Public Helpcenter Module search.
+//Scripts
+* Fixed error placement condition selector for dropdown datepicker.
+
+// Scripts
+* Fix in Repeater delete and add html , when there is multiple repeater in one repeater using data-table attribute
+//Controls
+*  Paging_Control , fix in the new paging_update fix of ignoring the total count 
+
+
+BBSF 1.2.1.71
+-------------------------------------------------------
+//controls
+* Paging_Control, Adding ResetSelector option to reset filters onclick, by default it's set to ".pv-reset"
+* LoadMore_Control, Adding ResetSelector option to reset filters onclick, by default it's set to ".pv-reset"
+* Paging_Control, update paging_update to take the filters and the updated total count  into consideration ,without needing to pass them in any postback call.
+* MultiLingual Label, added default Not Available/غير متوفر values with empty values, for consistency with B_Label
+
+//controllers
+*Change in all Modules to adapt with the paging_update function change , by not sending the total count in the postback of any ajax call function to update the listing.
+*Fix Department Users Link URL
+*FileExplorer Conroller Enhancement
+
+//Scripts
+*Fixed language mode function selectors.
+*Fixed DatePicker v-enddate and v-startdate  validation function condition.
+
+//Bnsights.MVC.Filters
+*Fixed redirect url "remove condition !IsAuthenticated from NavigateToHomePage function".
+
+
+** Note , After this update you don't need to call the method gettotalcount after updating the list using the paging control.
+
+
+BBSF 1.2.1.70
+-------------------------------------------------------
+*Change AdaptNumber and initialize table logic in Bnsights.js to accept to change specific binding index , 
+	if you need a specific binding name to just be adapted in the repeater ,add attribute in the table "data-binding-name"  
+* Add Validation to  Check all fields of the dropdown date pickers are entered , if one entry has been entered
+* Fix some varaiables initializations in Bnsights.js that causes the bundle to be corrupted
+* B_ProfileImageUpload, fixed bug, if IsRequired = true, FileName hidden needs a space after it, otherwise the input is displayed
+* FormValidationScripts-AR.js & FormValidationScripts-EN.js changed Login_PasswordConfirmation key to a more meaningful message
+* Fix FileExplorer (add/edit) issue & Modal UI
+//BLL Logic
+* Add function GetWFByActivitySysName in WorkflowLogic and return ActivitySysName from GetTasks functions
+//Control
+** Paging_Control , add condition on updating the page not to decrement the page number if the totalcount =0, to prevent negative page numbers(-1,-2)
+* File Upload Control , remove the default initialization accept types , and fix its tooltip.
+
+BBSF 1.2.1.69
+-------------------------------------------------------
+* Updated BBSF Initial Seed to add HelpCenter Configurations
+* Fixed AccountManagementLogic<T> and IAccountManagementLogic signup method to return an EntityFramework object instead of UserDTO
+
+
+BBSF 1.2.1.68 
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+* Making the helpcenter add and edit like other modules in Modal
+* Fix some UI & Logical issues in helpCenter
+* you can get only a partialview for the details part at the public area by setting public flag to true while calling index .
+N.B: you'll need to Change the url for helpcenter to /admin/helpcenter/Index
+* Change the departments Table Name to Department Rather than BBSFDepartment
+N.B: you'll need to Change the url for Department to /admin/Department/Index
+* Updated Bnsights.Providers.dll and its package, removed unnecessary dependencies (EntityFramework and Owin), and updated all default providers accordingly.
+* Admin/Providers screen, fixed bug in screen B_RequireControlAssets(AssetsControl.Phone) 
+* Bnsights.js=> (Repeater) add condition for the adapting number when its just one repeater used.
+* Fixing Departments URL for add and edit 
+* Fixing adding user discriminator on using clientuser
+1- add    builder.RegisterType<ClientAccountManagementLogic>().As<Bnsights.CoreLib.BLL.IAccountManagementLogic>(); in your app's bootstrapper
+2- implement ClientAccountManagementLogic: AccountManagementLogic<ClientUser> 
+
+//Controls
+* Adding Option for Multiselect DDL (EnableSelectAllOptions,DeselectAllBtnText,SelectAllBtnText) to enable SelectAll option And DeselectAll option  :: by default is set to false
+* Fixed null refernece exception in Label when using IsAnchor = true and TrimAt
+//BLL Logic
+* Pass VariableSysName to OnRequiredUserIDListEvent (To detect current WF).
+
+BBSF 1.2.1.67
+-------------------------------------------------------
+* SignUpModel made DepartmentID nullable, to fix signUp error
+* Bnsights.js, ClearControls fixed Multiple file Upload selector from b-multiplefileupload to pv-multiplefileupload
+* Templates, added feature to "Generate Update Code" to update existing template 
+
+BBSF 1.2.1.66
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+* Fix export feature by upgrading closedxml dll to V94.2
+//Controls
+* Fix ddl in IE when showing ddl list with validation msg.
+* Fix B_Label Control , on trimming and anchor options is on , to trim the value not the anchor value.
+//Scripts
+* Clamp.js => Add condition for text with different langauge in different dircetion.
+* Bnsights.js=> (Repeater) add into consideration when adding another repeater in a repeater by putting data attribute (data-table) in the table related to the add-button (ID)
+* Bnsights.js=>Add Helper Method Compare between values with different operators
+* FormValidationScripts.js=> Add checkDynamicFieldComparisonFunction (Rule) , where it compares a condition dynamically upon sepcified data attributes.
+* HoneyPot hidden input added autocomplete="off"
+//Modules
+* Adding Departments Module for linking users with departments (/Admin/BBSFDepartment)
+
+BBSF 1.2.1.65 
+-------------------------------------------------------
+//controls
+* Enable blockUI in DropdownFiltersSelectors and DatePickerFiltersSelectors of loadmore control.
+* Fix the cancel button for image cropper 
+* BaseConfig added new key MergeLocalizations to disable merging localizations on appStart, default value is true
+* ZipCompressor.Compress added new optional parameter fileName if not empty 
+
+//BLL Logic
+* Add option URL to keymap when sending mails in workflow to be redirected rather than the TaskURL to be used in Email template as #Url#. 
+
+BBSF 1.2.1.64
+-------------------------------------------------------
+* Summernote plugin(css, js and fonts) has been updated from V8.4 to V8.16.
+* Fix Active Directory Synchronization exception handling and add real time log writting to check the progress of the sevice from the logs.
+* Add Undo pending changes function in the Unit of Work, this functions can be used to revoke any changes done to the Entity Framework models
+* Changed Arabic lable for CreatedBY from:"تم أنشاؤة بواسطة" To:"تم الإنشاء بواسطة"
+* HelpCenterLogic 
+	GetItem, GetListing, GetFirstLevel, GetNLevel bypassed missing logo file, so screen does not crach on missing files
+	Add, and Update used ProcessFileDTO_ByInts instead of the existing if else logic
+* FileLogic added new method MoveToProvider to allow moving files across providers
+//Scripts
+* Fix Bootpag Plugin, when calling paging_update on the last page of the paging.
+* Bnsights.js added global handeling for nested popups
+//Controls
+* Fix Datetimepicker control on choosing cancel( it used to cause a JS Error , check first the item is not null)
+* Removed debugger lines from controls
+* B_ProfileImageUpload & B_ImageCropper changed cancel button from data-dismiss="modal" to onclick, to prevent closing parent modal in case of nested modals, and added type="button"
+* Fix SendEamil Control a-remove attachments after closing the Modal
+                        b-auto detect the filled language and send the template for it if both arabic & english are filled two mails will be sent
+						c-send body with it's spaces and new lines
+// Initial Seed
+* adding send email control template to initial seed
+
+
+BBSF 1.2.1.63
+-------------------------------------------------------
+* Fixed UI bugs in template screen 
+	Template Info
+		if test template modal is opend u cannot open send mail and vice versa
+		SMS preview text was outside mobile image, and edit link is now bigger
+	Edit SMS template, broken image url in  portlet head
+* EmailHeaderAndFooterTemplateLogic added searchText parameter to GetTotalCount()
+* HelpCenter
+	Split Admin controller from consumption controller  
+	Changed how preview mode works, by adding encrypted boolean (preview) to the Index method in the public controller
+	Removed Management Button in preview mode, that takes back to the administration part
+* ILookupLogic: 
+	added new method GetTotalCount(List<int> groupIds, string searchText = null) that applies screen filter
+* LookupLogicBase:
+	refactored GetByFilters method
+
+BBSF 1.2.1.62
+-------------------------------------------------------
+//Modules
+*Add start date to generate license tool
+*Fix counter plugin bug (Months left were refer to Minutes) and remove weeks from counter
+// Controls
+* Paging , add ShowPaginationWhenPageSizeEqualOne option , to be set to true , if you need to show the paging counter even there are no pages to be shown.
+* Image Upload Remove v-required-profileimage class and leave v-required.
+* HelpCenter add & Edit on submit, if HtmlTextEditor is in code view, switch to normal view to force summernote to save the data
+
+
+
+BBSF 1.2.1.61 
+-------------------------------------------------------
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+//Features&Modules
+*Linking the send email control to BBSF usermanagement module
+
+//Controls (!----Requires Migration ------!)
+*Adding new control for sending email dinamically B_SendEmailControl (!----Requires Migration ------!)
+to link it with either modules please review  https://www.dropbox.com/s/7vv7jr0b2vqbuzz/BnsightsLearning-SendingMailsFeature.docx?dl=0
+
+*(*NB Important !!!) Image Cropper & ProfileImageUpload change (string)fileuploadaccepttypes  option to (List of image types) ImageUploadAcceptsTypes same as Image Upload Control.
+
+* Fix ForceCopy options when converting controls to labelcontrol , to take the viewmode Layout option
+* Fix Layout Mode for Phone control , show in the two modes the LabelDescription
+* Fixed Arabic translation from إعادة تعيين to إعادة التعيين
+
+//Validation
+*Fix Allowing Anonymous through the  conrollers basefilters
+* \Assets\Bnsights\plugins\intl-tel-input intlTelInput.css intlTelInput-rtl.css removed comments (/* */) in the begining of the file as they cause problems with minification (Client Dependency)
+
+
+
+
+BBSF 1.2.1.60 
+-------------------------------------------------------
+
+// Trimming
+* Change made in InitializeLineTrimming in bnsights.js for checking if trimming element is td.
+* clamp.js script: condition for rtl direction (ar) in chrome has been added.
+* clamp.js added to bundle file (BundleConfig.cs) and we not need to import it to master layout. 
+* style added to bnsights.css
+* take care of your nesting before adding any class of trimming classes. you must not override any style for trimmed element and you can add your styles to its container.
+* Added new attribute DisableValidateAntiForgeryValidationAttribute, to disable AntiForgery Validation for post requests
+* FormValidationScripts-AR.js fixed arabic translation typo بالغة
+* ImageUploadOptions removed default constructor initialization that adds JPG,JPEG,PNG to ImageUploadAcceptsTypes, it causes duplicate values while deserializing FromBuilder
+	, rather added a check in the FillOptions if the list is empty, will add them.
+* HelpCenter fixed bug while get, did not load HTML
+
+
+
+
+
+BBSF 1.2.1.59 
+-------------------------------------------------------
+// BLL Logic
+* Migrations.BBSFConfiguration: Added Missing Configuration Lookups and their LookupItems to BBSFSeed (31,32)
+* [!!! Important !!!] BaseController: CultureInfo GetCulture(string langKey) fixed bug in arabic dateTime.ToString("dd-MMM-yyyy") 
+	PLEASE ADD THE BELOW LINE in Global.asax, to the method GetCulture(string langKey)
+                culture.DateTimeFormat.AbbreviatedMonthNames = new string[] { "يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر", "" };
+* NotificationsLogic SendMessage added new optional Parameter bool sendToActiveOnly = false, if set to true send the email/sms to active users only
+* Added OriginatorID , OriginatorIDEncrypted to WFLogItemDTO and AssignedToID , AssignedToIDEncrypted to WFLogItemDetails
+* BaseConfig GetList<T>(string value), handled null reference if value is null
+* BaseController 
+	added method ChangeLanguageAnonymous_NoRedirect to enable changing language only without additional actions 
+	changed static SetThreadCulture to SetThreadCultureS and added new non static SetThreadCulture which changes ViewBag.IsArabic
+// Scripts
+* Fixing Validation for file/image upload for svg type
+* add condition in addRequiredRules helpers : (&& !$(this).is('[readonly]')) to not add the required rule on a readonly attribute.
+
+//HelpCenter
+*Removed unused Viewbags in the controller.
+*If you want to show the preview as option in the admin side,override the viewbag.adminLogin to true in the inherited controller.
+*Preview button now opens the preview in a new window.
+*HelpCenter title which can be changed through configuration, is now applied in the management part of the HelpCenter.
+*HelpCenter Logic enhancments.
+*Fixed a bug where multiple divs with 'Not Available' would be visible if there was no content.
+*Fixed a bug where permission list dropdown loaded for inherited controllers.
+
+//MenuAttribute Class Bnsights.MVC
+* MenuAttribute class now accepts EN and AR configuration keys for the title, to use them configure the filter as follows:
+    [Filters.Menu(ConfigKeyEN = "HelpCenterTitleEN", ConfigKeyAR = "HelpCenterTitleAR", Order = 4, IconUrl = "/Assets/Bnsights/images/MenuIcons/HelpCenter.svg")]
+* New Admin Feature and Menu Link "File Explorer", UI for manging existing Files
+* Removed all debugger lines (600+)
+
+
+BBSF 1.2.1.58
+-------------------------------------------------------
+// BLL Logic
+*DbSetRegistrationSource Fixed TryResolveKeyed using ResolveKeyed<T>(key) instead of Resolve<T>() to fix Unfiltered dbset
+
+// HelpCenter
+*Removed the 2 submenues under the Help Center menu item in the admin menu (now the menu directs to the Admin Panel of the HelpCenter directly).
+*Added a preview menu item inside the dropdown menu in the help center admin panel, that directs to the guide of the help center.
+*Added a management button in the helpcenter guide that returns back to the admin panel of the help center (exclusive to admin).
+
+
+
+
+
+BBSF 1.2.1.57  (!----Requires Migration ------!)
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+// Controls
+* B_Dropdown -> ignored null entries in the Datasource (ie. when List<SelectListItem> has null items)
+* B_LoadMore -> added a condition in the case of using accordion nested table, in the condition of the AJAX post back reinitialization.
+*Fix MapAutoComplete Control when disabled and changed to Label Control , remove anchor when the Data is not available
+// Styles
+* Dropdown list wordwrap fix. (Bnsights-controls.css)
+
+// Scripts 
+* Fix validation for end date greater than start date for datetimepicker control  (form validation script)
+* Fix MapAutoComplete Error Handling , by validating the element after set position (Bnsights.js)
+* Fix validation for minlength , to check if the control is required before validating the min length
+
+// BLL Logic
+* Fix server-side English validator (IsEnglishString) to accept all characters except Arabic characters.
+* Add ActivitySysName to TMETaskDTO
+
+// Modules
+*(Help Center Module) Fixed a bug where the permission set menu for the admin preview dropdown was appearing for all permission sets (should be exclusive for admin).
+*(Help Center Module) Added a selector for the help center background image
+*(Help Center Module) HelpCenter index image and title can now be changed through configuration management screen ,
+  a migration with the following seed needs to be added:
+			
+					context.Configurations.Add(new Bnsights.CoreLib.Model.Configurations
+						{
+							Value = "/Assets/Bnsights/images/UI/bg-9.jpg",
+							Key = "HelpCenterImg",
+							ScopeItemID = (int)ConfigurationScope.App,
+							Created = DateTime.UtcNow,
+							Modified = DateTime.UtcNow,
+							ValueTypeID=(int)ConfigurationTypes.Text,
+						});
+
+						context.Configurations.Add(new Bnsights.CoreLib.Model.Configurations
+						{
+							Value = "Help Center",
+							Key = "HelpCenterTitleEN",
+							ScopeItemID = (int)ConfigurationScope.App,
+							Created = DateTime.UtcNow,
+							Modified = DateTime.UtcNow,
+							ValueTypeID = (int)ConfigurationTypes.Text,
+						});
+
+						context.Configurations.Add(new Bnsights.CoreLib.Model.Configurations
+						{
+							Value = "مركز المساعدة",
+							Key = "HelpCenterTitleAR",
+							ScopeItemID = (int)ConfigurationScope.App,
+							Created = DateTime.UtcNow,
+							Modified = DateTime.UtcNow,
+							ValueTypeID = (int)ConfigurationTypes.Text,
+						});
+
+
+///-------------Notes-------------//
+
+*How to use the Loadmore accordion nested table condition:
+
+					<table class="table" id="LessonsListing">   <-- this where you put the id of the control to replace, rather than putting it on the tbody
+                        <thead>
+                            <tr>
+                                <th class="kt-width-40">@Res.Main.Title</th>
+                                <th class="w-30">@Res.Main.Description</th>
+                                <th class="w-40px">@Res.Main.Duration</th>
+                                <th></th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>  <-- no id selector to be placed here 
+                            @Html.Partial("~/Views/Training/_LessonsListing.cshtml", Model.Lessons)  <-- no change, restructure as the normal accordion structure 
+                        </tbody>
+
+                    </table>
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+BBSF 1.2.1.56
+-------------------------------------------------------
+* Adding SVG type for image upload control
+* Fix Delete impersonation rule javascript
+* bnsights-accordion class has been added to filter controls in Template screen.
+* bars for perfect scrollbar made it visible by default. (Bnsights.css)
+* class "form-control-label" replaced by class "col-form-label" in toggle control.
+* Help Center Revamp Screen and Controller User Consumption
+* Image cropper Control:
+	class "bbsf-footer" has been added to modal footer. 
+	class "brand_primary-btn" added to save btn.
+*Add OwnerImageGuid and OwnerID to InstanceCommentDTO
+
+
+BBSF 1.2.1.55 
+-------------------------------------------------------
+* Bnsights.Providers.Email.Smtp.SmtpProvider add throw exception if number of failed retries is exceeded. It used to give success even if email failed to send
+* NotificationsLogic fixed error message when no email or sms default providers found
+* Fix Controlling the rest of library actions by same flag controlling who can add file or folder 
+* Layout Resolver added to Admin HelpCenter Controller 
+* LocalizationLogic GenerateStronglyTypedClass() improved the using static modifier to reduce text, and avoid conflicts with ClientApp.BLL classes named Extensions
+* BBSFContext InsertPermissionSet fixed error (removed Discriminator column from the insert statement)
+
+
+BBSF 1.2.1.54
+-------------------------------------------------------
+* Use layout viewbag in template and master layout views
+
+
+BBSF 1.2.1.53
+-------------------------------------------------------
+* Fix Trimming JS File , needed to be included in the master and Anonymous layout of all client projects, kindly use this path after the 	"<script src="~/Assets/vendors/general/jquery/dist/jquery.min.js"></script>" :
+		<script src="~/Assets/Bnsights/plugins/clamp/clamp.js"></script>
+* Add condtion for datetimepicker control in V-notgreaterthantoday and V-notlessthantoday Rules.(Form Validation Scripts)
+* Bnsights.Tools.Word fixed bug, if TemporaryDirectoryPath is specified, we use it, instead of over-writing it
+* Bnsights.Tools.Excel 
+	- Added GenericParserAdapter which allows parsing a CSV file to a datatable (codeProject project)
+	- Added DatatableToJSONConverter which allows converting a dataTable to JSON
+	- Handeled Empty columns to the right and empty cells from the bottom issue, by reversing the the for loops using i--
+* Add infinite scroll feature to loadmore control.Allow automatic load more when scroll reaches the bottom of specific container.
+* Add Option to update the License from License Screen in Admin Area 
+* Add SVG Filetype in FileUpload and MultipleFileUpload Controls
+
+
+BBSF 1.2.1.52
+-------------------------------------------------------
+* Reinitialize data-scroll-x, data-scroll-y for perfectscrollbar plugin in bnsights.js
+* EID control updated for small screen [change input type from text to tel] in initializeEid() bnsights.js
+* Trimming using is more faster the old in IE [clamp.js]. We can use the old trimming classes [text-to-truncate1, text-to-truncate2, text-to-truncate3, text-to-truncate4]
+* Users screen adjust check mark position which was overlapping with the user img
+* Chat new features [expand btn, chat box reposition with animation when messages center panel closed]
+* Logger fixed bug in Warning,Error,Fatal methods are were calling Debug intenrall, causing all logs to be on the debug level
+* B_DefaultAjaxForm when ajaxOptions.RouteValues == null && !string.IsNullOrEmpty(ajaxOptions.Controller) was calling a wrong overload of ajaxHelper.BeginForm which never uses the specified controller
+
+BBSF 1.2.1.51
+-------------------------------------------------------
+* BBSFUserLogic<T> and LookupLogicBase<TLookup, TLookupItem>, added virtual to all methods to provide better inheritance 
+* Admin User screen => Edit user => enabled changing user PermissionSet from multiselect dropbox
+* WordProcessor, temp file name, added milliseconds to avoid conflicts in for loop generation
+
+BBSF 1.2.1.50
+-------------------------------------------------------
+* TMETaskLogic=>GetAllTasks=>when 3rd parmter (isCompleted = null) it returns all tasks it used to return current user tasks
+* FileController, Get() added new parameter bool inline = false, to allow reading PDFs inside browser. Added IsInline to FileUploadOptions and MultiFileUploadOptions to enable using the feature
+* NotificationsLogic SendMessage added new parameter, attachments
+* TagsInput add option minlength for characters to start searching after the later.
+
+BBSF 1.2.1.49 (!----Requires Migration ------!)
+-------------------------------------------------------
+- REQUIRES MIGRATION!
+-------------------------------------------------------
+* Chat height in mobile screen has been modified.
+* Hidden tooltip in mobile screen.
+* fixed translation خريطه الموز to خريطه الرموز
+* NotificationsLogic SendMessage added new parameter, langKey to enable sending a specific language
+* add bool? IsFirstLoggedIn in UserInfo , to check whether its the first login for the user or not , and set to true , from the client side logic.
+
+BBSF 1.2.1.48
+-------------------------------------------------------
+* (Calendar update) update script for InitializeCalendar in bnsights.js and add new style in bnsights-controls.css, bnsights.controls-rtl.css
+* DbSetRegistrationSource modified resolution source to use the enclosing ILifetimeScope instead of Autofac.Integration.Mvc.AutofacDependencyResolver (fixing the change in 47), so if no current webRequest the enclosing scope is used.
+
+BBSF 1.2.1.47 
+-------------------------------------------------------
+* DbSetRegistrationSource modified resolution source to use Autofac.Integration.Mvc.AutofacDependencyResolver instead of the main container
+* Bnsights.js AutoNavMore Menue Logic Fixes
+* MultipleFileUploadOptions added new property Value, to enable using the name overload for model binding (non-lambda expression), passing an existing value
+* MultipleFileUpload Fix MaxFileSize file error
+* add rule to mapautocomplete to enter a valid map location (form validation scripts & dictionary & bnsights.js)
+
+BBSF 1.2.1.46
+-------------------------------------------------------
+- LoadMore Enhanced search and filters to apply block ui when using filters 
+- Fixed Chat Add Member Auto Complete
+
+BBSF 1.2.1.45
+-------------------------------------------------------
+- LoadMore Removed BlockUI
+
+BBSF 1.2.1.44
+-------------------------------------------------------
+- Fixed Edit Locked Workflow Activity 
+
+BBSF 1.2.1.43
+-------------------------------------------------------
+- Profile Picture Control Localized Upload Image
+- Bnsights controls (Removed Form-control margin & added pv-dropdown display inline)
+
+BBSF 1.2.1.42 
+-------------------------------------------------------
+* Fix IsEmail and IsSMS to enable edit template even if they are by false.
+* remove chat.js from requireassests of chat
+* add pointer-cursor to search bar in chat (full message and chat side bar)
+* fix overlapping chatsidebar from the chat
+* IEncryptionManager added new overload string Encrypt(object unencrypted) that uses the .ToString() on the System.Object
+* add new action in Template info to enable send email to multiple emails new line seperated  without using keymaps to be used as announcement emails.
+
+
+BBSF 1.2.1.41
+-------------------------------------------------------
+* Cropper Fix Removal of colour fill so images can be transparent
+* Multilingual Html Editor Description Position Fix
+* Bnsights.css (Fixed nesting issue)
+
+BBSF 1.2.1.40
+-------------------------------------------------------
+* Fix Chat.js (remove getchatRoom function)
+* All BBSF Tabular listing removed scroll and added table-responsive to fix mobile view
+* FileLogic Fixed an issue with mimetypes causing display problems in IE Compatibility View
+* Linecutter added a class when it's trimmed
+* Bnsights.js fix menulayout
+* Bnsights.css fix blockuicontainer style
+
+BBSF 1.2.1.39
+-------------------------------------------------------
+* Workflow Fixed an issue with redirect
+* Loadmore/Paging UnblockUI fix
+* License style changes
+
+BBSF 1.2.1.38 
+-------------------------------------------------------
+* Notifications (templates) page fixed Generate Code Bug, invalid parameter name from UI
+* add option to loadmore and paging control to block ui by container , and fix the blockcontainer logic in general in these controls
+* fix add unblock ui on ajax error bnsights.js
+* fix add template issue
+* add condition by not removing the unblock ui unless there is only one active ajax left running bnsights.js
+* edit lookupitem fix managaeble dev mode
+* [Chat and messages] add getchatroom function general in Chat.js
+* add chat.js to assestcontrol of Chat
+
+
+
+BBSF 1.2.1.37
+-------------------------------------------------------
+* Multilingual Textbox, Textarea, label forced direction and alignment
+* MapAutoComplete Lable style fix
+* FormValidationScripts.js fixed summmer note append error
+* Bnsights.js BlockUI position fixed (L/R)
+
+BBSF 1.2.1.36
+-------------------------------------------------------
+*Dropdowndatetimepicker Year mode input value binded 
+*custom-trim-Arabic.css exclude one class of font
+
+BBSF 1.2.1.35 
+-------------------------------------------------------
+*custom-trim-Arabic.css included
+*Worflow and Workflow activity Screens UI
+*Jobs Screens UI
+*Provider Screen Index UI (FIX)
+*Users Screen UI (FIX)
+*Direction styles RTL Fix bnsights-rtl.css
+*Fix Styles Bnsights.css
+
+
+BBSF 1.2.1.34 
+-------------------------------------------------------
+* DropDownDatePicker binding 12 AM Fix check if it is zero then its 12 
+* Fix DDL to support Selected from datasource
+* fixed a bug in inserting new Client PermissionSet 
+* Chatlogic fix and UI enhancements
+* ChatUserLogic Client User Support (To Use ClientUser with ChatUserLogic you will need to do the following)
+  1 - Create a new class that implements ChatUserLogic<AppClientUser>
+        public class ClientChatUserLogic : ChatUserLogic<AppClientUser>
+	    {
+	        public ChatUserLogic(IDbSet<UserInfo> userInfoRepo, IDbSet<AppClientUser> userRepo, UserIdentity identity, IEncryptionManager encryptor)
+	            : base(userInfoRepo, userRepo, identity, encryptor)
+	        {
+	        }
+	    }
+
+  2 - AutoFac Registration
+      builder.RegisterType<ClientChatUserLogic>().As<IBBSFChatUserLogic>();
+
+     
+
+BBSF 1.2.1.33 
+-------------------------------------------------------
+* Fix Chat Logic and UI Enhancements
+
+
+BBSF 1.2.1.32 (Pending)
+-------------------------------------------------------
+* Fix generate code in notification template
+* ChatSideBar Detect if app is overriding FullChatMessages url  (Attribute on html body)
+* ServerEvents Added a new event (ConfigurationUpdated) that gets invoked when configuration gets updated
+
+
+BBSF 1.2.1.31 
+-------------------------------------------------------
+* Fix PerfectScrollInitialize in Bnsights.js
+* Fix Chat HandleBars 
+* Fix UI Issues Chat 
+* Add Chat.js in Bnsights Plugins
+* Add Trimmer js and cs in Bnsights Plugings
+* Bnsights.js UnblockUI changed to AjaxSuccess instead of AjaxStop
+* Messages Controller support to render view as PartialView instead of view and layout
+
+
+BBSF 1.2.1.30
+-------------------------------------------------------
+* add new feature trimming using classes (text-to-truncate1, text-to-truncate2,text-to-truncate3, text-to-truncate4) to trim for number of lines.
+* update perfectscrollbar reinitialize 
+* Fix FileUpload Cancel Button
+* remove download file and animate side class in fileupload and multifileupload , if file not exists
+
+
+BBSF 1.2.1.29 
+-------------------------------------------------------
+-------------------------------------------------------
+!!!!!!!!!		REQUIRES A MIGRATION		    !!!!!!!
+-------------------------------------------------------
+-------------------------------------------------------
+
+* fixing UI chat in small screen
+* Main menu auto resize update
+* Modified BlockUI styles (Background is transparent now, to override you can write custom styles on the app ".blockUIContainerBgColor" selector)
+* Adding DefaultValue For Configuration and Logic to reset value (Where Migration is needed)
+* Fixing Impersonation Rules.
+
+
+BBSF 1.2.1.28
+-------------------------------------------------------
+* fixing profile ImageUpload styles
+* fixing Image Cropper styles
+
+
+BBSF 1.2.1.27
+-------------------------------------------------------
+* fixing member leaving chat Logic
+* fixing updatefolerDTO to updateFolderDTO
+
+BBSF 1.2.1.26
+-------------------------------------------------------
+* Dropdown.cs fixed space bug
+* AccountManagementLogic, ResendActivation by SysName was not working
+* Chat Module:
+     1-show disabled user in different style.
+	 2-clear New message popUp everytime
+	 3-fix Add Member For FullMessage Screen.
+	 
+
+BBSF 1.2.1.25
+-------------------------------------------------------
+* repeater fix in formvalidation scripts
+* DropdownList control, size issue
+
+BBSF 1.2.1.24 
+-------------------------------------------------------
+* Modify astrisk according to language modes.
+* Add Lookups For language modes ==> Guideline how to use it  https://one.bnsights.com/File/GetByEncryptedId?IdEncyrpted=1QtlYpnTkv652ZB6ZevwKU2jLzWrUgEejQdD-5P9gBg
+* Add comment to email task in WF
+* Add override to update folder in bbsf folder logic to update folder Arabic and English name
+* Controls, corrected translation from Not Applicable to Not Available
+
+BBSF 1.2.1.23
+-------------------------------------------------------
+* AccountManagementLogic AppendRedirectionURL(Dictionary<string, string> keyMap, UserInfo userInfo, string activationPageURL), method to add default RedirectURL keys
+* bnsights-controls.css Phone control control, used a lighter gray color for placeholder
+* TemplateLogic, generate code, included SysName
+* NotificationsLogic, allowed overriding Default BBSF KeyMap
+
+BBSF 1.2.1.22
+-------------------------------------------------------
+* Dropdown DateTime Picker Year only mode, was posting an Int instead of a date 2019 instead of (1-1-2019) also rendering did not check for SelectedDate property 
+* Templates added new popup to edit SysNames in DevMode
+* Fix bbsf library (copy and move authorization) 
+
+BBSF 1.2.1.21
+-------------------------------------------------------
+* Fix bbsf library (add new authorization key for delete folders on root and fix some ui issues) 
+* Generalizing the Language Mode Configuration to implement please visit https://one.bnsights.com/File/GetByEncryptedId?IdEncyrpted=HR-GMDy6lqlRpopSLX_WwGxKwR21XlNvE-894szvKdU
+* Fixed UI Issues Related to Controls [File Upload,DropDownDatePicker,Filter]
+* Added new function Bnsights.js [PerfectScrollBar]
+* Updated bnsights-controls-rtl.css & bnsights-controls.css
+* Fix paging count in users screen
+
+BBSF 1.2.1.20
+-------------------------------------------------------
+* ImageUploadOptions removed default initialization "ImageType.JPG,ImageType.PNG,ImageType.JPEG" to an empty list
+* MultipleFileUploadOptions removed default initialization "FileType.PDF" to an empty list
+* fixed arabic translation typo بالغة
+* Adding LanguageMode To Bnsights.js 
+  a) add <input type="hidden" name="BBSF_App_LangMode" value="@languageMode" /> to master layout while the languageMode Variable is the connfiguration reading from enum  Bnsights.CoreLib.BLL.LanguageModes 
+  b) Adding ExtraClasses = " config-required" to multilingualControls 
+* Fix form validation to handle multiple repeaters validation roles
+
+BBSF 1.2.1.19
+-------------------------------------------------------
+* Added PowerPoint to FileTypes for File and MultiFile Upload controls
+* LocalizationLogic
+	fixed bug in Search Algorithm (Same Key in different resource sets)
+	fixed bug in replace text (when replacing a single lang, the other is set to null)
+	Added Regions in the GenerateStronglyTypedClass
+* Enahanced a couple of arabic translations
+
+
+BBSF 1.2.1.18
+-------------------------------------------------------
+* TemplateLogic, 
+	Prevented Changing SysName while editing
+	fixed bug in Generate Code CategoryItemID was static
+* ForgotPasswordModel, and ResendActivationModel added TemplateSysName support
+* UserModelDTO changed ID from long to int
+* NotificationsLogic added logic if NameAR is empty use NameEN
+
+BBSF 1.2.1.17
+-------------------------------------------------------
+* fixed Textbox bug, when number and decimal ranges are not null, but do not contain values
+* Admin Home index, added page title
+* Bnsights.Tools.Word (1.0.0.6) upgraded DocX to version 1.5.0 which will break some of the refrences (they moved some definitions from Xceed.Words.NET to Xceed.Document.NET)
+* AddRequiredRules [FileUpload Fix detects if fileupload already has file uploaded before adding required rule]
+* CustomMigration<T> added property ExecutingPath to get current path, and added ExecuteScript which Executes Sql script on the target database, and supports bbsfGO command
+
+BBSF 1.2.1.16
+-------------------------------------------------------
+* Configuration Listing (Increased scrolling height)
+* Included Missing Scripts within Bnsights assets (HandleBars & timeago)
+* Templates > Replace text >
+	added multiline support
+	Handled null value exception for input text
+	Added UseEmptyValue checkbox, to allow replacing with empty values
+	Fixed Breadcrumb bug(bad link)
+* Lookups generate code all fixed bug with boolean values (False instead of false)
+* FileUpload .. Removed default FileUploadAcceptsTypes
+* Fixing Cropper for IE
+* Bnsights.js FormValidationScripts.js MaxWordCount
+	added validation message (You have reached the maximum number of words) when the MaxWordCount is reached
+	Fixed bug, once MaxWordCount is reached, the lable is red, and never gets back, even if we decreased the word count
+ 
+
+BBSF 1.2.1.15
+-------------------------------------------------------
+* Adding types to configurations screen (to use please visit the Link  https://www.dropbox.com/s/yoyjjl51z30wsgo/BnsightsLearning%20-%20BBSF%20Configuration%20Module.docx?dl=0)
+* Templates > Added new Feature Replace Text, with advanced find options. 
+* Localizations > Added new Feature Replace Text, with advanced find options.
+
+BBSF 1.2.1.14 
+-------------------------------------------------------
+* Image Cropper Fix (BnsightsControls.css / Bnsights.Js)
+* InitializeTabs in Bnsights Js , Add data attribute option to prevent adding the href to the window location if desired
+* FileUploader Style BnsightsControls.css
+* Template View change cursor hand to pointer  Bnsights.css
+* Paging count fix (Template and Users)
+* Change multilingual html editor of head tag attribute in create and edit master layout to multilingual textbox editor
+* Fix bootstrapdatetimepicker js (add function set initial value)
+* Chat Views Update
+* New Configurations (ChatSystemRoomImagePath,ChatSupportRoomPath)
+* Fix MenuLayout Bnsights.js
+
+
+BBSF 1.2.1.13
+-------------------------------------------------------
+* ***** IMPORTANT ****** Localizations
+	- Breaking change (IDbR esMerger) added new method, so u need to regenerate Res.cs
+	- LocalizationLogic
+		# Added CreateOrUpdateUnmodifiedAll, which updates records that have ModifiedBy "AnonymousUser" and leaves manually modified translations
+		# Added WipeAndCreateAll, which deletes all the existing records, and recreates them
+		# Added SearchAnyResourceSet(string query)
+		# GenerateStronglyTypedClass enhanced to include the new methods, and adds Xml Comments so we know what is the value of a resource in intellisense
+	- Updated BRes.cs to the latest version
+	- Updated Translation errors
+	- Changed Key DescriptionEn to DescriptionEN
+* HelpCenter, Localizations, Lookup code generation, now use the same popup, and have Copy To Clipboard option
+* Added missed feature MultiplePersonaAttribute security filter
+* EditUserModelValidator logic enhancement
+* Notifications 
+	- added missed Feature GenerateCode for a single template
+	- search, now searches in email and sms content
+* Bnsights.css .btn-user (used in users admin screen) removed opacity from color (as it feels like disabled buttons)
+* Bnsights.CoreLib.Common.StringHelper, Added new strring extension method, MakeCSharpIdentifier 
+* Fixing profile_imageUplaod to support multiple controls inone form
+* Chat module
+* Fix add user to permission set tags input
+* Fix tags input value in bnsights.js
+* Add new option to TagsInputOptions to control search result count (MaximumSearchResultCount) default value is 5
+* Fix RemoveAllRequiredRules when container has tags input in bnsights.js
+
+BBSF 1.2.1.12
+-------------------------------------------------------
+* hotfix, added Admin Home missing FilterAttribute
+
+BBSF 1.2.1.11
+-------------------------------------------------------
+* Impersonation Revamp Views New Template
+* Toggle Switch View label (bug)
+* Migrations Merger, handled duplicate method names
+* HelpCenter Controller, removed setting the ViewBag.Layout from child contorller and depend on the base HelpCenterController
+* HelpCenter Public Index.cshtml, fixed bread crumb
+* Lookups screens, added Generate Code (to all lookups), exposed GenerateSysNames with a proper label 
+* bnsights.css added styles to "Remove menu from the landing page START"
+* ***** IMPORTANT FOR ALL ******
+	Add the below script to the master layout, as the last thing of the head section, it is responsible for hiding BBSF Admin Menu
+	Added Admin Home page, so BBSF now contains Admin/Home controller, so please remove or rename yours
+	@* Script to check landing page *@
+	<script>
+        var urlPath = window.location.pathname;
+        if (urlPath.toLowerCase().includes("/admin/"))
+			$("html").attr("landing-page", "remove-menu-landing-page");
+	</script>
+* Bnsights.js [Fixed tags input selector]
+* Bnsights-controls.css [Removed float from tagsinput styles]
+
+
+BBSF 1.2.1.10
+-------------------------------------------------------
+* Fix ImageCropper in Edit Mode.
+* Fix providers add screen (Select provider type from dropdown, Load predefined provider attributes, UI fixes)
+* Fix provider edit screen (UI fixes)
+* Fix AdapteNumber Function in bnsights.js 
+
+
+
+BBSF 1.2.1.9 
+-------------------------------------------------------
+* Get old history of profile image upload control , till fixed as dynamic control in next releases.
+
+
+BBSF 1.2.1.8
+-------------------------------------------------------
+* Bnsights.js (Fixes to tags input)
+* TagsInput HideLabel fix
+* Remove menulayout from masterlayout admin (clientapp.web)
+* Fix Localization Screen (include requireassests for autocompletetextbox)
+* add assets for autocompletetextbox
+* fix autocompletetextbox (UI / Binding)
+
+BBSF 1.2.1.7 
+-------------------------------------------------------
+* bug fix in BBSF seed, missing CreateProviders
+* UI enhancements and Bug fixes
+	PermissionSet Removed redundant menu item 
+	added Bread Crumb, to all screens
+	Added New Admin Home Index
+	Lookup Items screen, fixed broken Image Link
+	Users Listing, fixed default user image, broken Image link
+* Image Cropper Control fix 
+* Library Module JS Fix
+* Changes to TagsInputControl to support custom logic when selecting items
+* Fixed typeahead.bundle.js (An issue where it does not display all the results)
+* BBSF Start, moved HangfireBootstrapper.Instance.Start(); after loading the providers
+
+BBSF 1.2.1.6
+-------------------------------------------------------
+* New BBSF Html helper to generate a span with data-resource-set and data-resource-id
+* All BBSF Controls need to set data-resource-set and data-resource-id:
+	* Image Upload
+	* Image Cropper
+	* Toggle Switch
+	* Profile Image Upload
+	* Tags Input
+* Initialize tablesearch fn Bnsights.JS Fix to the new template
+* FileUpload fixed Model Name, in case FileDTO itself is the Model of the View, it was not model binding.
+* MapAutoComplete fixed same issue as above.
+* Multiple File Upload
+* Image Upload
+* Image Cropper
+* Profile Image Upload
+* Auto Complete Textbox
+* Fix Phone Control Extra Classes
+* Notification Templates
+	Added GenerateCode for all templates, and GenerateSysNames (devMode features)
+	Fixed a bug when saving email templates, while in code view, changes are not saved, fix is switch back to normal view before save
+	Email Template Info page, added Email Subject to the screen, increased the edit button click area
+	Added copyToClipboard to generateCode popups
+	fixed Broken Image links 
+	added Subject to Email preview popup, and removed double close button (x)Localizations
+* Master Layouts
+	Added GenerateCode for all layouts
+* BBSF Initial Seed, replaced the Old Notification Templates and Master Layouts to the new better looking templates 
+* Localization: search now searches in values as well as ResourceId
+* BaseConfig, added new Key, BBSF_ValidateCaptcha default, is true, can be used to disable captcha validation during automated tests
+* FormValidationScripts.js added Automated Test Selectors to server side validation div (tst_ValidationDiv) and li (tst_ValidationError)
+* Active directory new UI
+* Library new UI
+* Add css classes (kt-width-40, kt-height-40) to bnsights.css
+* ADSyncronizationLogic, added suppoer to ClientUser
+
+
+
+
+BBSF 1.2.1.5
+-------------------------------------------------------
+- FileController Added GetCached Functionality.
+
+BBSF 1.2.1.4
+-------------------------------------------------------
+- Merge with BBSF 1 REQUIRES MIGRATION!
+-------------------------------------------------------
+* Introduced IBBSFUserLogic instead of BBSFUserLogic to support ClientUser in Users Admin Screen
+* Fixed PermissionSetLogic/PermissionSetDTOValidator to allow optional SysName
+* LocalizationLogic added new DbRes merge with New BBSF Keys
+* LogsController fixed bug scripts in logs run on screen, GetLogFile HtmlEncoded contents
+* Fixed WorkflowActivityController, WorkflowVariableController 
+* Fixed Admin Broken Images in all screens kt-portlet__head-icon
+
+
+
+BBSF 1.2.1.4
+-------------------------------------------------------
+- Merge with BBSF 1 REQUIRES MIGRATION!
+-------------------------------------------------------
+
+
+BBSF 1.2.1.2
+-------------------------------------------------------
+* Providers, added select default provider feature, fixed UI bugs
+* reordered images foler in Assets/Bnsights
+
+
+BBSF 1.2.1.1
+-------------------------------------------------------
+- Added new Assets (Images,JS Files)
+- MasterLayout Controller changes
+- Help Center (Fixes & Changes)
+
+BBSF 1.2.1.0
+-------------------------------------------------------
+- HelpCenter Fixes
+- Images Fixes
+- Service Providers Fixes
+
+
+BBSF 1.2.0.0
+-------------------------------------------------------
+- Asset Images Fixes
+
+BBSF 1.1.0.9
+- Help Center Changes
+
+BBSF 1.1.0.8
+-------------------------------------------------------
+-------------------------------------------------------
+!!!!!!!!!		REQUIRES A MIGRATION		    !!!!!!!
+-------------------------------------------------------
+-------------------------------------------------------
+- Help Center Changes
+
+
+BBSF 1.1.0.7
+-------------------------------------------------------
+- Merge With BBSF 1 (Can Impersonate)
+- Controls Changes
+
+BBSF 1.1.0.6
+-------------------------------------------------------
+- Merge with BBSF 1 REQUIRES MIGRATION!
+- Providers Changes From BBSF 1 (Loading providers is now static)
+
+* Bnsights.CoreLib.BLL.ProviderLogic.LoadProviders(Container)
+
+
+if(!context.LookupItems.Any(lk=> lk.ID == 25004))
+{
+   context.LookupItems.Add(new LookupItem()
+   {
+       ID = 25004,
+       NameEN = "User",
+       NameAR = "مستخدم ",
+       DisplayOrder = 0,
+       LookupID = 25,
+       Manageable = false,
+       SysName = "Participant_User"
+   });
+}
+
+
+
+BBSF 1.1.0.5
+-------------------------------------------------------
+- Migrations Fix for WF
+
+
+BBSF 1.1.0.4
+-------------------------------------------------------
+- Included Workflow Model within BBSF Context.
+
+BBSF 1.1.0.3
+-------------------------------------------------------
+- TagsInput Fix (Edit Mode - Binding Selected Value)
+
+
+BBSF 1.1.0.0
+-------------------------------------------------------
+- New Control Support Auto Complete Tags Input
+- New Control Support Calendar
+- Updated Screens
+	- Localization
+	- Providers
+	- Users
+	- Configuration
+	- Public Holidays
+
+BBSF 1.0.0.9
+-------------------------------------------------------
+- Updates to BBSF Screens
+
+	Permissions Sets
+	Lookup Groups
+	Lookups
+	Lookup Items
+	Header and Footer Template screen
+	Template Screen
+	Edit Template Info Screen
+
+- Fix Map AutoComplete Z-Index Issue
+
+BBSF 1.0.0.8
+-------------------------------------------------------
+- Fixed Form Validation Highlighting
+- BlockUI Style fixes
+- Bootstrap dropdown fixes
+- Upload Buttons & Files Listing button height.
+- EID Automatic validation fixed
+- Checkbox toggle from label disabled
+- Clear controls (Support for toggle checkbox)
+
+BBSF 1.0.0.7
+- Fixed Telephone Script (Bnsights.JS (Removed Utility))
+- Multilingual Textarea/textbox supports rendering both fields in one row to override this(use OneRow on control options)
+- Fixed EID On Load (Detect values and add mask)
+
+BBSF 1.0.0.5
+-------------------------------------------------------
+- Fixed EID semi column
+- Fixed EID minimum Length
+- Fixed Tooltip (Reinitialization)
+
+BBSF 1.0.0.3
+- Fixed Multifile upload & Fileupload Tooltip
+- Fixed Fileupload (Remove file doing full postback)
+- Fixed Word wrap in text area
+- Fixed Paging Filters
+
+  

@@ -1,0 +1,69 @@
+
+
+body{
+  direction: rtl;
+}
+
+.custom-trim1 , .custom-trim2 , .custom-trim3 , .custom-trim4{
+  /* hide text if it more than N lines  */
+  overflow: hidden;
+  /* use this value to count block height */
+  line-height: 1.4em;
+  
+}
+.custom-trim1{
+  /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: 1.4em; 
+  }
+  
+  .custom-trim2{
+    /* max-height = line-height (1.2) * lines max number (3) */
+    max-height: 2.8em; 
+  }
+  
+.custom-trim3{
+
+  max-height: 4.2em; 
+}
+
+.custom-trim4{
+
+max-height: 4.8em; 
+}
+
+ 
+
+
+  @media screen and (max-width: 992px) {
+    .custom-mobile-trim1{
+      max-height: 1.2em; ;}
+
+    .custom-mobile-trim2{
+      max-height: 2.4em; ;}
+      
+    .custom-mobile-trim3{
+      max-height: 3.6em; }
+      
+     .custom-mobile-trim4{
+      max-height: 4.8em; }
+        }
+   
+
+
+  
+ 
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  

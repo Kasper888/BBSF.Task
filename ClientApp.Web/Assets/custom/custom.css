@@ -1,0 +1,225 @@
+﻿@font-face {
+    font-family: BwGlennSans;
+    src: url(../Fonts/BwGlennSans-Regular.woff);
+}
+
+body {
+    font-family: BwGlennSans !important;
+}
+
+/* Custom Classes */
+.kt-width-40 {
+    width: 40px !important;
+}
+
+.kt-height-40 {
+    height: 40px !important;
+}
+
+.text-trim {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.font-size-20 {
+    font-size: 20px !important;
+}
+
+.font-size-24 {
+    font-size: 24px !important;
+}
+
+.noborder {
+    border: 0;
+}
+
+.dropdown-icon {
+    display: inline;
+    margin-left: .5rem;
+    position: relative;
+    font-size: 0.9rem;
+}
+
+.input-without-style {
+    padding: 0;
+    height: auto;
+    background: transparent !important;
+    border: 0;
+}
+
+.fit-header {
+    margin-left: -25px;
+    margin-right: -25px;
+    padding: 0 25px 10px;
+    border-bottom: 1px solid #ebedf2;
+}
+
+.text-trim {
+    max-width: 100%;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+}
+
+.margin-right-10 {
+    margin-right: 10px !important;
+}
+
+.margin-top-15 {
+    margin-top: 15px !important;
+}
+/* NEW TEMPLATE */
+.btn-animate-side.btn-sm span > .icon {
+    left: 3px;
+}
+
+.btn-animate-side span > .icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    -webkit-transition: opacity .2s ease-out 0s;
+    -o-transition: opacity .2s ease-out 0s;
+    transition: opacity .2s ease-out 0s;
+    -webkit-transform: translate(-20px,-50%);
+    -ms-transform: translate(-20px,-50%);
+    -o-transform: translate(-20px,-50%);
+    transform: translate(-20px,-50%);
+    opacity: 0;
+}
+
+.btn .icon {
+    line-height: inherit;
+    width: 1em;
+    margin: -1px 3px 0;
+    text-align: center;
+}
+
+.btn-animate span {
+    height: auto;
+}
+
+.btn-animate span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-transform: translate(0px,0px);
+    -ms-transform: translate(0px,0px);
+    -o-transform: translate(0px,0px);
+    transform: translate(0px,0px);
+}
+
+.btn-animate-side:hover span > .icon {
+    opacity: 1;
+}
+
+.btn-animate-side:hover span {
+    -webkit-transform: translate(10px,0px);
+    -ms-transform: translate(10px,0px);
+    -o-transform: translate(10px,0px);
+    transform: translate(10px,0px);
+}
+
+.btn-animate-side span {
+    -webkit-transition: -webkit-transform .2s ease-out 0s;
+    -o-transition: -o-transform .2s ease-out 0s;
+    transition: transform .2s ease-out 0s;
+}
+
+.btn-animate-side.btn-sm:hover span {
+    -webkit-transform: translate(8px,0px);
+    -ms-transform: translate(8px,0px);
+    -o-transform: translate(8px,0px);
+    transform: translate(8px,0px);
+}
+
+.btn-animate-side.btn-sm {
+    padding: .429rem 1.572rem;
+}
+/* Customization Style */
+.accordion.accordion-toggle-plus .card .card-header .card-title:after {
+    font-family: "Font Awesome 5 Pro";
+    content: "-";
+    font-size: 32px;
+}
+
+.accordion.accordion-toggle-plus .card .card-header .card-title.collapsed:after {
+    content: '+';
+    font-size: 20px;
+}
+
+.card.v-card {
+    -webkit-box-orient: horizontal !important;
+    flex-direction: row !important;
+}
+
+.localization-list.kt-notification .kt-notification__item:after,
+.modal .modal-content .modal-header .close:before {
+    display: none;
+}
+
+.v-form-group .kt-checkbox-list .kt-checkbox {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.providers-table .dropdown-menu > .dropdown-item, .providers-table .dropdown-menu > li > a {
+    display: block;
+}
+
+.kt-paging {
+    padding: 25px;
+    padding-bottom: 0;
+}
+
+.table-scroll-content {
+    display: block;
+    min-height: 500px;
+    max-height: 500px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+    .table-scroll-content::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    .table-scroll-content::-webkit-scrollbar-thumb {
+        background-color: #666;
+        border-radius: 10px;
+    }
+
+    .table-scroll-content::-webkit-scrollbar-track {
+        background-color: #ccc;
+    }
+
+.btn.dropdown-toggle:after, .nav-link.dropdown-toggle:after {
+    display: none;
+}
+
+.providers-table tr td:first-child, .providers-table tr th:first-child {
+    /*padding-left: 25px;*/
+    max-width: 350px;
+}
+
+.sms-template {
+    margin-top: 80px;
+    margin-left: 18px;
+    white-space: pre-line !important;
+    margin-right: 30px;
+    padding: 8px !important;
+}
+
+.note-editing-area {
+    z-index: -1;
+}
+
+.blockui.blockOverlay {
+    display: inherit;
+    z-index: auto;
+}
+
+.blockui > span {
+    display: inline-block;
+}

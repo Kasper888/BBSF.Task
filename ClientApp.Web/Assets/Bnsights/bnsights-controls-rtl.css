@@ -1,0 +1,115 @@
+﻿/* NEW Template Controls Style*/
+
+/* Label */
+b.label {
+	text-align: right !important;
+}
+
+/*Date Picker*/
+.datepicker {
+	right: 315px !important;
+}
+
+/* Date Time Picker Control */
+.pv-control.pv-datetimepicker .input-group-text,
+.b-mapautocomplete .input-group-text {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.datetimepicker thead th.next > span:before {
+	content: "\f060";
+}
+
+.datetimepicker thead th.dow {
+	font-weight: 400;
+	font-size: 11px;
+}
+
+/* Toggle Switch */
+.b-switch input:empty ~ span:after {
+	margin-right: 3px;
+}
+
+.b-switch input:empty ~ span:after, .b-switch input:empty ~ span:before {
+	right: 0;
+}
+
+.b-switch input:checked ~ span:after {
+	margin-right: 26px;
+}
+
+/* DropDown Control */
+.pv-dropdown .bootstrap-select.btn-group .dropdown-toggle .filter-option {
+	text-align: right;
+}
+
+.pv-dropdown .bootstrap-select.btn-group .dropdown-toggle .caret {
+	left: 12px;
+	right: auto;
+}
+
+/* Phone Control */
+.pv-control.pv-phone .intl-tel-input .selected-flag .iti-arrow {
+	right: auto;
+}
+
+.pv-control.pv-phone .form-control {
+	direction: ltr;
+	text-align: right;
+}
+
+.pv-control .word-counter {
+	left: 15px;
+	right: auto;
+}
+
+
+/* Paging */
+.pv-control.pv-paging .kt-pagination__link--first a .fa,
+.pv-control.pv-paging .kt-pagination__link--last a .fa,
+.pv-control.pv-paging .kt-pagination__link--next a .fa,
+.pv-control.pv-paging .kt-pagination__link--prev a .fa {
+	transform: rotate(180deg);
+}
+
+/* Tags Input */
+.pv-control.pv-tags-input .bootstrap-tagsinput input {
+	right: 0;
+	left: auto !important;
+	text-align: right;
+}
+
+.pv-control.pv-tags-input .tt-menu {
+	left: auto !important;
+	right: 0;
+}
+
+.pv-control.pv-tags-input .bootstrap-tagsinput .tag {
+	float: right;
+	margin-left: 10px;
+	margin-right: auto;
+}
+
+.pv-control.pv-tags-input .bootstrap-tagsinput .tag [data-role="remove"] {
+	margin-right: 5px;
+	margin-left: 0;
+}
+
+.kt-checkbox > span:after {
+	border-width: 0 2px 2px 0 !important;
+	-webkit-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+/* Calendar Control */
+.b-calendar .fc-center .fc-icon.fa-arrow-right {
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.table-centered.table td {
+    vertical-align: middle !important;
+}

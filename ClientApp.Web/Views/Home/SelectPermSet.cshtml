@@ -1,0 +1,34 @@
+﻿@model List<ClientApp.BLL.DTOs.SelectPermissionSetDTO>
+    @{
+    Layout = "~/Views/Layout/_AnonymousLayout.cshtml";
+    ViewBag.Title = AppUI.SelectPermSet;
+    }
+
+    <h3>@AppUI.SelectPermSet</h3>
+    <div class="list-group bg-blue-grey-100 bg-inherit text-left mt-20" style="background-color: rgba(208, 210, 212, 0.2784313725490196);">
+        @foreach (var item in Model)
+        {
+        using (Ajax.B_DefaultAjaxForm(new AjaxFormOptions()
+        {
+        Action = "SelectPermSet",
+        SuccessFunction = "clientsidePostBack",
+        }))
+        {
+        <a onclick="submit(this);">
+            <p class="list-group-item blue-grey-500">
+                @Html.Hidden("id", item.PermissionSetID)
+                @item.PermissionSetName
+            </p>
+        </a>
+        @Html.AntiForgeryToken()
+        }
+        }
+    </div>
+    <script>
+    function clientsidePostBack(data) {
+        window.location = data.url;
+    }
+    function submit(anchor) {
+        $(anchor).parent().submit();
+    }
+    </script>

@@ -1,0 +1,670 @@
+﻿/* NEW Template Controls Style*/
+
+/* Label */
+b.label {
+    text-align: left !important;
+}
+
+.b-label {
+    font-weight: 600 !important;
+}
+
+.input-form-group label {
+    padding-top: calc(.65rem + 1px);
+    padding-bottom: calc(.65rem + 1px);
+    margin-bottom: 0;
+    font-size: 80%;
+    line-height: 1.5;
+}
+
+@media(max-width: 1023px) {
+    .h-form-group .col-form-label.text-right {
+        text-align: left !important;
+    }
+}
+
+/* Profile Image Upload */
+.pv-control.pv-profileimageupload .overlay-max-width {
+    max-width: 120px !important;
+    height: 120px;
+    border: 3px solid #fff;
+    box-shadow: 0 0 13px 0 rgba(0,0,0,.1);
+    border-radius: 50%;
+}
+
+.pv-control.pv-profileimageupload .overlay-icon {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 0px;
+    top: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #fff;
+    box-shadow: 0 0 13px 0 rgba(0,0,0,.1);
+    transition: all .3s;
+}
+
+    .pv-control.pv-profileimageupload .overlay-icon:hover {
+        transition: all .3s;
+        background-color: #5d78ff;
+    }
+
+        .pv-control.pv-profileimageupload .overlay-icon:hover .icon.edit-profilepicture {
+            color: #fff !important;
+        }
+
+.pv-control.pv-profileimageupload .icon.edit-profilepicture {
+    font-size: 0.9rem;
+}
+
+.pv-control.pv-profileimageupload .previewImage {
+    height: 100%;
+}
+/* Image Upload */
+.pv-control.pv-imageUpload .img-upload-overlay,
+.pv-control.pv-imageCropperUpload .overlay-panel {
+    top: 0;
+    background-color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    display: none;
+}
+
+    .pv-control.pv-imageUpload .img-upload-overlay i.icon,
+    .pv-control.pv-imageCropperUpload .overlay-panel i.icon {
+        font-size: 3rem;
+        position: absolute;
+        top: 35%;
+        left: 35%;
+        color: #fff;
+    }
+
+.pv-control.pv-imageUpload .fileinput-preview:hover .img-upload-overlay,
+.pv-control.pv-imageCropperUpload .overlay-max-width:hover .overlay-panel {
+    display: block;
+    transition: display 0.2s ease-out 0s;
+}
+
+/* Toggle Switch Control Style*/
+.pv-control.pv-toggleswitch .h-form-group .kt-switch label {
+    padding: 0;
+}
+
+.pv-control.pv-toggleswitch .switchery > small {
+    display: none;
+}
+
+.pv-control.pv-toggleswitch .switchery {
+    border-color: transparent !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+}
+
+.b-switch input:empty ~ span:before {
+    background-color: #e8ebf1;
+}
+
+.b-switch input:empty ~ span:after, .b-switch input:empty ~ span:before {
+    width: 54px;
+    border-radius: 15px;
+}
+
+.b-switch input:empty ~ span:after, .b-switch input:empty ~ span:before {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    content: ' ';
+    -webkit-transition: all .1s ease-in;
+    transition: all .1s ease-in;
+}
+
+.b-switch input:empty ~ span:after {
+    color: #f8f9fb;
+    background-color: #fff;
+}
+
+.b-switch input:empty ~ span:after {
+    height: 24px;
+    width: 24px;
+    line-height: 26px;
+    top: 3px;
+    bottom: 3px;
+    margin-left: 3px;
+    font-size: .9em;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.b-switch input:empty ~ span {
+    display: inline-block;
+    position: relative;
+    float: left;
+    width: 1px;
+    text-indent: 0;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.b-switch input:empty ~ span {
+    line-height: 30px;
+    margin: 2px 0;
+    height: 30px;
+    width: 57px;
+    border-radius: 15px;
+}
+
+.b-switch input:checked ~ span:before {
+    background-color: #e8ebf1;
+}
+
+.b-switch input:checked ~ span:after {
+    background-color: #5d78ff;
+    color: #fff;
+}
+
+.b-switch input:checked ~ span:after {
+    margin-left: 26px;
+}
+
+/*Date Time Picker Control*/
+.datetimepicker .glyphicon.glyphicon-arrow-left,
+.datetimepicker .glyphicon.glyphicon-arrow-right {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+}
+
+    .datetimepicker .glyphicon.glyphicon-arrow-left:before {
+        content: "\f104";
+    }
+
+    .datetimepicker .glyphicon.glyphicon-arrow-right:before {
+        content: "\f105";
+    }
+
+.datepicker-dropdown i.fa.fa-angle-left,
+.datepicker-dropdown i.fa.fa-angle-right {
+    padding-top: 5px;
+}
+
+.pv-control.pv-datetimepicker .input-group-text,
+.b-mapautocomplete .input-group-text {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.datetimepicker thead th.next > span:before {
+    content: "\f061";
+}
+
+.datetimepicker thead th.prev > span:before {
+    content: "\f060";
+}
+
+.fa {
+    font-family: "Font Awesome 5 Free" !important;
+    font-weight: 900 !important;
+}
+/* Dropdown Control */
+.pv-dropdown .dropdown-toggle:active,
+.pv-dropdown .dropdown-toggle:hover,
+.pv-dropdown .show > .btn.btn-default {
+    background-color: transparent;
+    border-color: #9aabff;
+    color: #a7abc3;
+}
+
+.pv-dropdown .bootstrap-select .dropdown-menu.inner > li.selected > a span.check-mark:before {
+    content: '\f00c';
+    font-family: "Font Awesome 5 Free";
+}
+
+.pv-control.pv-dropdown .bootstrap-select.multi-select.show-tick .dropdown-menu li.selected a span.check-mark {
+    top: 11px;
+}
+
+.pv-control.pv-dropdown .btn-group.bootstrap-select {
+    display: inline-block !important;
+}
+/* Phone Control */
+.pv-control.pv-phone .intl-tel-input {
+    width: 100%;
+}
+
+.pv-control .word-counter {
+    right: 15px;
+    bottom: -5px;
+    display: none;
+    margin-top: 5px;
+}
+.pv-control.pv-phone ::placeholder {
+	color: #C5C5C5;
+	opacity: 1; /* Firefox */
+}
+
+.pv-control.pv-phone :-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color: #C5C5C5;
+}
+
+.pv-control.pv-phone ::-ms-input-placeholder { /* Microsoft Edge */
+	color: #C5C5C5;
+}
+
+.pv-control.pv-multilingualhtmleditor .word-counter {
+    bottom: -22px;
+}
+
+/* Map auto complete control */
+.pac-container {
+    z-index: 1100;
+}
+
+/* Paging */
+.kt-portlet__body--fit .kt-pagination {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.pv-control.pv-paging .kt-pagination li.disabled a {
+    cursor: not-allowed;
+}
+
+/* Tags Input */
+.pv-control.pv-tags-input .bootstrap-tagsinput .tag {
+    color: #495057;
+    margin-right: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: #f1f1fa;
+    border-radius: 5px;
+    padding: 3px;
+    margin-top: 2px;
+}
+
+    .pv-control.pv-tags-input .bootstrap-tagsinput .tag [data-role="remove"] {
+        color: #fd397a;
+    }
+
+.pv-control.pv-tags-input .bootstrap-tagsinput {
+    width: 100%;
+    min-height: 38px;
+    border: 1px solid #e2e5ec;
+    min-height: calc(1.5em + 1.3rem + 2px);
+    line-height: 1.5;
+    position: relative;
+}
+
+    .pv-control.pv-tags-input .bootstrap-tagsinput input {
+        padding-top: 5px;
+        padding-bottom: 3px;
+        font-size: 14px;
+    }
+
+.pv-control.pv-tags-input .tt-menu {
+    min-width: 300px;
+}
+
+    .pv-control.pv-tags-input .tt-menu .kt-notification .kt-notification__item:after {
+        display: none;
+    }
+
+    .pv-control.pv-tags-input .tt-menu .tt-cursor {
+        background-color: #f1f1fa;
+    }
+
+.pv-control.pv-autocompletetextbox .twitter-typeahead {
+    width: 100%;
+}
+
+/* Repeater */
+.repeater-dgep-create .form-group,
+.no-margin-b-control .form-group {
+	margin-bottom: 0 !important;
+}
+
+/*summer note*/
+.note-editing-area {
+    z-index: 3;
+}
+
+/*Cropper*/
+
+.cropper-view-box {
+    box-shadow: 0 0 0 1px #39f;
+    outline: 0;
+}
+
+.cropper-preview {
+    overflow: hidden;
+}
+
+.img-preview {
+    float: left;
+    margin: 0 10px 10px 0;
+    overflow: hidden;
+}
+
+    .img-preview > img {
+        max-width: 100%;
+    }
+
+.preview-lg {
+    width: 263px;
+    height: 148px;
+}
+
+.preview-md {
+    width: 139px;
+    height: 78px;
+}
+
+.preview-sm {
+    width: 69px;
+    height: 39px;
+}
+
+.preview-xs {
+    width: 35px;
+    height: 20px;
+    margin-right: 0;
+}
+
+.cropper, .cropper-toolbar {
+    margin-bottom: 30px;
+}
+
+img-crop {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+canvas {
+    margin: 0 !important;
+}
+
+.cropper-canvas img {
+    max-width: 100%;
+}
+
+.cropper-readonly {
+    cursor: default !important;
+}
+
+    .cropper-readonly i {
+        display: none;
+    }
+
+@media (min-width: 1200px) {
+    .cropper {
+        max-height: 600px;
+    }
+}
+
+@media (min-width: 768px) {
+    .cropper {
+        max-height: 400px;
+    }
+}
+
+@media (max-width: 767px) {
+    .cropper {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 479px) {
+    .cropper {
+        max-height: 246px;
+    }
+}
+
+@media (max-width: 586px) {
+    .btn-group .btn {
+        padding: 6px 8px;
+    }
+
+    .cropper {
+        max-height: 246px;
+    }
+}
+
+.user-base.card-block {
+    padding: 1.429rem !important;
+    max-height: 400px !important;
+}
+
+
+.upload-button {
+    font-size: 9px;
+}
+
+/*End Cropper*/
+/*File Uploader*/
+.btn-animate-side.btn-sm span > .icon {
+    left: 3px;
+}
+
+.btn-animate-side span > .icon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    -webkit-transition: opacity .2s ease-out 0s;
+    -o-transition: opacity .2s ease-out 0s;
+    transition: opacity .2s ease-out 0s;
+    -webkit-transform: translate(-20px,-50%);
+    -ms-transform: translate(-20px,-50%);
+    -o-transform: translate(-20px,-50%);
+    transform: translate(-20px,-50%);
+    opacity: 0;
+}
+
+.btn .icon {
+    line-height: inherit;
+    width: 1em;
+    margin: -1px 3px 0;
+    text-align: center;
+}
+
+.btn-animate span {
+    height: auto;
+}
+
+.btn-animate span {
+    display: block;
+    width: 100%;
+    height: 100%;
+    -webkit-transform: translate(0px,0px);
+    -ms-transform: translate(0px,0px);
+    -o-transform: translate(0px,0px);
+    transform: translate(0px,0px);
+}
+
+.btn-animate-side:hover span > .icon {
+    opacity: 1;
+}
+
+.btn-animate-side:hover span {
+    -webkit-transform: translate(10px,0px);
+    -ms-transform: translate(10px,0px);
+    -o-transform: translate(10px,0px);
+    transform: translate(10px,0px);
+}
+
+.btn-animate-side span {
+    -webkit-transition: -webkit-transform .2s ease-out 0s;
+    -o-transition: -o-transform .2s ease-out 0s;
+    transition: transform .2s ease-out 0s;
+}
+
+.btn-animate-side.btn-sm:hover span {
+    -webkit-transform: translate(8px,0px);
+    -ms-transform: translate(8px,0px);
+    -o-transform: translate(8px,0px);
+    transform: translate(8px,0px);
+}
+
+.btn-animate-side.btn-sm {
+    padding: .429rem 1.572rem;
+}
+
+
+/* Form Group */
+/*.pv-control .form-group {
+	margin-bottom: 1rem;
+}*/
+
+/* accordion */
+.bnsights-accordion.accordion.accordion-toggle-plus .card .card-header .card-title.collapsed:after {
+	content: '+';
+}
+
+.bnsights-accordion.accordion.accordion-toggle-plus .card .card-header .card-title:after {
+	content: '-';
+	font-size: 20px;
+}
+
+/* File Upload */
+.pv-control.pv-fileupload .upload-file-info {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	line-height: 16px;
+	max-height: 32px;
+	word-break: break-word;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+.pv-control.pv-dropdown .dropdown-menu.show {
+	z-index: 100;
+	overflow: hidden !important;
+}
+
+.pv-control.pv-dropdown .btn.dropdown-toggle {
+	background: #fff;
+}
+.pv-control.pv-fileupload .btn.download-link{
+	width: calc(100% - 37px);
+}
+.pv-control.pv-fileupload .btn.download-link, 
+.pv-control.pv-fileupload .btn.remove-link, 
+.pv-control.pv-fileupload .btn.file-fake-input {
+	height: 37px;
+}
+
+
+/* Dropdown Time picker */
+.pv-control.pv-dropdowndatepicker .form-control.select.dueDate {
+	margin-bottom: 15px;
+}
+
+/* Load More Control */
+.load-more-container .b-loadmore-control {
+	margin-bottom: 0 !important;
+}
+
+.v-arabic {
+    text-align: right;
+    direction: rtl;
+}
+
+.v-english {
+    text-align: left;
+    direction: ltr;
+}
+
+.multilingual-label-ar-container {
+    text-align: right;
+    direction: rtl;
+}
+
+.multilingual-label-en-container {
+    text-align: left;
+    direction: ltr;
+}
+
+/* Calendar Control */
+
+.b-calendar .fc-center > div {
+	float: none;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+/* Dropdown */
+.bootstrap-select .dropdown-menu.inner > li.selected > a,
+.bootstrap-select .dropdown-menu.inner > li > a {
+	white-space: normal;
+}
+.table-centered.table td {
+    vertical-align: middle !important;
+}
+.bootstrap-select.btn-group .dropdown-toggle .filter-option {
+	text-overflow: ellipsis;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+/* IE Styles */
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	.kt-pagination .kt-pagination__links li a {
+		display: table-cell;
+		text-align: center;
+		vertical-align: middle;
+	}
+}
+
+/* Auto complete textbox tags input */
+.pv-autocompletetextboxtagsinput .twitter-typeahead{
+	width: 100%;
+}
+.pv-autocompletetextboxtagsinput .twitter-typeahead .auto-complete-with-tags-input {
+	display: block;
+	width: 100%;
+	height: calc(1.5em + 1.3rem + 2px);
+	padding: .65rem 1rem;
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #fff;
+	background-clip: padding-box;
+	border: 1px solid #e2e5ec;
+	border-radius: 4px;
+	-webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+	transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+	transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+.pv-autocompletetextboxtagsinput .twitter-typeahead .auto-complete-with-tags-input:focus{
+	border: 1px solid #9aabff;
+	outline: 0;
+}
+.pv-autocompletetextboxtagsinput .tags-class .chip {
+	color: #74788d;
+	background: #ebedf2;
+	border-radius: 4px;
+}
+.pv-autocompletetextboxtagsinput .tags-class .chip label{
+	margin-bottom: 0;
+}
+.pv-datetimepicker .form-datetime[data-disabled="True"]:after, .pv-datetimepicker .form-date[data-disabled="True"]:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.1);
+    content: '';
+}
+
+.pv-datetimepicker .form-datetime[data-disabled="True"]:hover, .pv-datetimepicker .form-date[data-disabled="True"]:hover {
+    cursor: not-allowed;
+}

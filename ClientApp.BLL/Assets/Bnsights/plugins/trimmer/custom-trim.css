@@ -1,0 +1,64 @@
+
+/* Start Line trimmer */
+.text-to-truncate1, .text-to-truncate2, .text-to-truncate3, .text-to-truncate4 {
+	overflow: hidden;
+	line-height: 1.2em;
+}
+
+.text-to-truncate1 {
+	max-height: 1.2em;
+}
+
+.text-to-truncate2 {
+	max-height: 2.4em;
+}
+
+.text-to-truncate3 {
+	max-height: 3.6em;
+}
+
+.text-to-truncate4 {
+	max-height: 4.8em;
+}
+/* End Line trimmer */ 
+
+ 
+
+
+@media screen and (max-width: 992px) {
+	.text-to-truncate1 {
+		max-height: 1.2em;
+	}
+
+	.text-to-truncate2 {
+		max-height: 2.4em;
+	}
+
+	.text-to-truncate3 {
+		max-height: 3.6em;
+	}
+
+	.text-to-truncate4 {
+		max-height: 4.8em;
+	}
+}
+   
+
+
+  
+ 
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  

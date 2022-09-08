@@ -1,0 +1,9 @@
+﻿@font-face {
+	font-family: BwGlennSans;
+	src: url(../Fonts/BwGlennSans-Regular.woff);
+}
+
+body {
+	font-family: BwGlennSans !important;
+}
+
