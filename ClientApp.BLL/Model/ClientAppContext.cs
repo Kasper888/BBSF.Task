@@ -21,6 +21,7 @@ namespace ClientApp.BLL.Model
 
         public new DbSet<ClientUser> Users { get; set; }
         public new DbSet<ClientLookupItem> LookupItems { get; set; }
+        public virtual DbSet<Student> Students { get; set; }
 
     }
 }

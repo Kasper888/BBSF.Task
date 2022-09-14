@@ -294,7 +294,7 @@
     <Compile Include="AppConstants.cs" />
     <Compile Include="AppExtensions.cs" />
     <Compile Include="CustomUserIdentity.cs" />
-    <Compile Include="DTOs\Class1.cs" />
+    <Compile Include="DTOs\StudentDto.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Logic\ClientBBSFUserLogic.cs" />
     <Compile Include="Logic\ClientFolderAutorization.cs" />
@@ -302,16 +302,27 @@
     <Compile Include="Logic\ClientLookupItemLogic.cs" />
     <Compile Include="Logic\Client_AccountManagementLogic.cs" />
     <Compile Include="Logic\ImpersonationLogic.cs" />
+    <Compile Include="Logic\StudentLogic.cs" />
     <Compile Include="Migrations\202209071147421_CreateInitial.cs" />
     <Compile Include="Migrations\202209071147421_CreateInitial.designer.cs">
       <DependentUpon>202209071147421_CreateInitial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209081341078_AddStudent.cs" />
+    <Compile Include="Migrations\202209081341078_AddStudent.designer.cs">
+      <DependentUpon>202209081341078_AddStudent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209111339300_EditStudent.cs" />
+    <Compile Include="Migrations\202209111339300_EditStudent.designer.cs">
+      <DependentUpon>202209111339300_EditStudent.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\ClientConfiguration.cs" />
     <Compile Include="Model\ClientAppContext.cs" />
     <Compile Include="Model\ClientLookupItem.cs" />
     <Compile Include="Model\ClientUser.cs" />
+    <Compile Include="Model\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Res.cs" />
+    <Compile Include="Validators\StudentDtoValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -461,7 +472,14 @@
     <EmbeddedResource Include="Migrations\202209071147421_CreateInitial.resx">
       <DependentUpon>202209071147421_CreateInitial.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209081341078_AddStudent.resx">
+      <DependentUpon>202209081341078_AddStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209111339300_EditStudent.resx">
+      <DependentUpon>202209111339300_EditStudent.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
