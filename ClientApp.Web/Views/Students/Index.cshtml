@@ -1,0 +1,39 @@
+﻿@model ListingDTO<List<StudentDto>>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Layout/_MasterLayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name En
+            </th>
+            <th>
+                Name Ar
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Birthday
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="listingContainer">
+        @Html.Partial("~/Views/Students/_Listing.cshtml", Model)
+    </tbody>
+</table>
+@Html.B_Paging(new PagingOptions("#listingContainer", Url.Action("GetListing"), Model.PagingDTO.TotalCount)
+      {
+          PageSize = Model.PagingDTO.PageCount,
+          ShowPaginationWhenPageSizeEqualOne = true
+      })

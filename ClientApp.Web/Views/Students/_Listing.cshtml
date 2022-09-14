@@ -1,0 +1,24 @@
+﻿@model ListingDTO<List<StudentDto>>
+
+@foreach (var item in Model.Data)
+{
+    <tr>
+        <td>
+            @item.NameEn
+        </td>
+        <td>
+            @item.NameAr
+        </td>
+        <td>
+            @item.Email
+        </td>
+        <td>
+            @item.Birthday
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+        </td>
+    </tr>
+}
