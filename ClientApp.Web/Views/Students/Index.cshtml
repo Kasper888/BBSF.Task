@@ -4,12 +4,14 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Layout/_MasterLayout.cshtml";
 }
-
+@Html.B_RequireControlAssets(AssetsControl.DatePicker)
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
+<button class="btn btn-primary" onclick="openUpsertModal()">Create</button>
+
+<div id="upsertModal" class="modal" tabindex="-1" role="dialog"></div>
+
 <table class="table">
     <thead>
         <tr>
@@ -37,3 +39,12 @@
           PageSize = Model.PagingDTO.PageCount,
           ShowPaginationWhenPageSizeEqualOne = true
       })
+
+<script>
+    function openUpsertModal(id) {
+        $.get("Students/Upsert/" + id, function (data) {
+            $("#upsertModal").html(data);
+            $("#upsertModal").modal('show');
+        });
+    }
+</script>

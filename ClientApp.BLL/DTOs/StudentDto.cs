@@ -1,4 +1,5 @@
-﻿using ClientApp.BLL.Validators;
+﻿using Bnsights.MvcControls;
+using ClientApp.BLL.Validators;
 using FluentValidation.Attributes;
 using System;
 using System.Collections.Generic;
@@ -11,8 +12,8 @@ namespace ClientApp.BLL.DTOs
     public class StudentDto
     {
         public int ID { get; set; }
-        public string NameEn { get; set; }
-        public string NameAr { get; set; }
+        public EnglishArabicDTO Name { get; set; }
+
         public string Email { get; set; }
         public DateTime Birthday { get; set; }
     }

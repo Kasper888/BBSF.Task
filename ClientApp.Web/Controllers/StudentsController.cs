@@ -37,8 +37,8 @@ namespace ClientApp.Web.Controllers
             });
         }
 
-        // GET: Students/Edit/5
-        public ActionResult LoadUpsertModal(int? id)
+        // GET: Students/Upsert/5
+        public ActionResult Upsert(int? id)
         {
             var student = id == null ? new StudentDto() : _studentLogic.GetSingle(id.Value);
             if (student == null)
@@ -55,19 +55,19 @@ namespace ClientApp.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Upsert(StudentDto student)
         {
-            if (ModelState.IsValid)
+            var errors = CheckValidationErrors();
+            if (errors != null)
+                return errors;
+
+            if (student.ID == 0)
             {
-                if (student.ID == 0)
-                {
-                    _studentLogic.Add(student);
-                }
-                else
-                {
-                    _studentLogic.Edit(student);
-                }
-                return new HttpStatusCodeResult(HttpStatusCode.OK);
+                _studentLogic.Add(student);
             }
-            return PartialView("~/Views/Students/_UpsertModal.cshtml", student);
+            else
+            {
+                _studentLogic.Edit(student);
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         // POST: Students/Delete/5

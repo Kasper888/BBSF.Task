@@ -14,8 +14,8 @@ namespace ClientApp.BLL.Validators
     {
         public StudentDtoValidator(IDbSet<Student> db)
         {
-            RuleFor(x => x.NameEn).NotEmpty().Length(2, 255);
-            RuleFor(x => x.NameAr).NotEmpty().Length(2, 255);
+            RuleFor(x => x.Name.English).NotEmpty().Length(2, 255);
+            RuleFor(x => x.Name.Arabic).NotEmpty().Length(2, 255);
             RuleFor(x => x.Birthday).LessThan(DateTime.Now.AddYears(-21)).WithMessage("Age must be 21 at least");
             RuleFor(x => x.Email).NotEmpty().EmailAddress()
                 .Must((student, email) => !db.Any(s => s.Email == email && s.ID != student.ID))

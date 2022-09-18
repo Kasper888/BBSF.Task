@@ -32,8 +32,7 @@ namespace ClientApp.BLL.Logic
                 .Take(paging.Take)
                 .Select(s => new StudentDto
                 {
-                    NameEn = s.NameEn,
-                    NameAr = s.NameAr,
+                    Name = new EnglishArabicDTO { Arabic = s.NameAr, English = s.NameEn },
                     ID = s.ID,
                     Birthday = s.Birthday,
                     Email = s.Email
@@ -44,8 +43,7 @@ namespace ClientApp.BLL.Logic
         {
             var dbStudent = _db.Find(id);
             var studentDto = new StudentDto();
-            studentDto.NameEn = dbStudent.NameEn;
-            studentDto.NameAr = dbStudent.NameAr;
+            studentDto.Name = new EnglishArabicDTO { Arabic = dbStudent.NameAr, English = dbStudent.NameEn };
             studentDto.Email = dbStudent.Email;
             studentDto.Birthday = dbStudent.Birthday;
             return studentDto;
@@ -54,8 +52,8 @@ namespace ClientApp.BLL.Logic
         {
             var dbStudent = new Student();
 
-            dbStudent.NameEn = studentDto.NameEn;
-            dbStudent.NameAr = studentDto.NameAr;
+            dbStudent.NameEn = studentDto.Name.English;
+            dbStudent.NameAr = studentDto.Name.Arabic;
             dbStudent.Email = studentDto.Email;
             dbStudent.Birthday = studentDto.Birthday;
 
@@ -70,8 +68,8 @@ namespace ClientApp.BLL.Logic
                 throw new ArgumentException("Student not found");
             }
 
-            dbStudent.NameEn = studentDto.NameEn;
-            dbStudent.NameAr = studentDto.NameAr;
+            dbStudent.NameEn = studentDto.Name.English;
+            dbStudent.NameAr = studentDto.Name.Arabic;
             dbStudent.Email = studentDto.Email;
             dbStudent.Birthday = studentDto.Birthday;
 

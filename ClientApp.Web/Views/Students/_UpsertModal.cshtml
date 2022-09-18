@@ -1,53 +1,52 @@
 ﻿@model ClientApp.BLL.DTOs.StudentDto
 
 
-
-<div class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">@(Model.ID > 0 ? "Edit" : "Create") Student</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            @using (Ajax.B_DefaultAjaxForm(new AjaxFormOptions { Action = "Upsert" }))
-            {
-                @Html.AntiForgeryToken()
-                <div class="modal-body">
-                    @Html.HiddenFor(s => s.ID)
-                    @Html.B_MultilingualTextBox("", new MultilingualTextboxOptions
-                    {
-                    IsRequired = true,
-                    ShowAsterisk = true,
-                    MaxLength = 255,
-                    MaxWordCount = 4,
-                    ArabicTitle = "Arabic name",
-                    EnglishTitle = "English name",
-                    Value = new EnglishArabicDTO { Arabic = Model.NameAr, English = Model.NameEn }
-                    })
-                    @Html.B_Textbox(s => s.Email, new TextboxOptions
-                    {
-                    IsRequired = true,
-                    ShowAsterisk = true,
-                    LabelValue = "Email",
-                    MaxLength = 255,
-                    Type = "email"
-                    })
-                    @Html.B_DatetimePicker(s => s.Birthday, new DatetimePickerOptions
-                    {
-                       IsRequired = true,
-                       ShowAsterisk = true,
-                       LabelValue = "Birthday",
-                       Type = DateTimePickerType.Date
-                    })
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-primary" value="Save" />
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            }
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">@(Model.ID > 0 ? "Edit" : "Create") Student</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
+        @using (Ajax.B_DefaultAjaxForm(new AjaxFormOptions { Action = "Upsert", SuccessFunction = "upsertSuccess" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                @Html.HiddenFor(s => s.ID)
+                @Html.B_MultilingualTextBox(s => s.Name, new MultilingualTextboxOptions
+                {
+                IsRequired = true,
+                ShowAsterisk = true,
+                MaxLength = 255,
+                MaxWordCount = 4,
+                ArabicTitle = "Arabic name",
+                EnglishTitle = "English name"
+                })
+                @Html.B_Textbox(s => s.Email, new TextboxOptions
+                {
+                IsRequired = true,
+                ShowAsterisk = true,
+                LabelValue = "Email",
+                MaxLength = 255,
+                Type = "email"
+                })
+                @Html.B_DropdownDatepicker(s => s.Birthday, new DropdownDatepickerOptions
+                {
+                   IsRequired = true,
+                   ShowAsterisk = true,
+                   LabelValue = "Birthday"
+                })
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="Save" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        }
     </div>
 </div>
-
+<script>
+    function upsertSuccess() {
+        Paging_Update();
+    }
+</script>

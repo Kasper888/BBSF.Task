@@ -4,10 +4,10 @@
 {
     <tr>
         <td>
-            @item.NameEn
+            @item.Name.English
         </td>
         <td>
-            @item.NameAr
+            @item.Name.Arabic
         </td>
         <td>
             @item.Email
@@ -16,8 +16,7 @@
             @item.Birthday
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+            <button class="btn btn-secondary btn-sm" onclick="openUpsertModal(@item.ID)">Edit</button>
             @Html.ActionLink("Delete", "Delete", new { id = item.ID })
         </td>
     </tr>

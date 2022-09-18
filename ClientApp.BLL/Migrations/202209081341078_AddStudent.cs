@@ -5,28 +5,8 @@
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    public partial class AddStudent : Bnsights.CoreLib.Migrations.CustomMigration<Model.ClientAppContext>
+    public partial class AddStudent : DbMigration
     {
-        public override void Up_Seed(ClientAppContext context)
-        {
-            var rnd = new Random();
-            var namesEn = new string[] { "Ramy", "Ahmed", "Aya", "Mahmoud", "Eslam", "Mena" };
-            var namesAr = new string[] { "رامي", "أحمد", "أية", "محمود", "إسلام", "مينا" };
-
-            var randomStudents = Enumerable.Range(1, 55).Select(i =>
-            {
-                var randomIndex = rnd.Next(6);
-                return new Student
-                {
-                    NameAr = namesAr[randomIndex],
-                    NameEn = namesEn[randomIndex],
-                    Email = namesEn[randomIndex] + "@bnsights.com",
-                    Birthday = DateTime.Now.AddYears(-rnd.Next(21, 100))
-                };
-            });
-            context.Students.AddRange(randomStudents);
-            context.SaveChanges();
-        }
         public override void Up()
         {
             CreateTable(
